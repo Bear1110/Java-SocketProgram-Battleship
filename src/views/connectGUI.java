@@ -61,7 +61,7 @@ public class connectGUI {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // 關掉這個視窗會全關
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 關掉這個視窗不會全關@@
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 關掉這個視窗不會全關
 		panel = new JPanel();
 		targetIp.setColumns(10);
         
@@ -72,7 +72,7 @@ public class connectGUI {
 		} catch (UnknownHostException e) {e.printStackTrace();}
 		yourIpLable.setText("你的IP是 :"+IP);
 	    
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane()); 
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
