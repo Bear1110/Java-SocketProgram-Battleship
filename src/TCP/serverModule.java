@@ -9,7 +9,7 @@ import views.connectGUI;
 public class serverModule {
 	static Vector<String> v = new Vector<String>();
 	
-	public static void initTCPServer(connectGUI test){
+	public static void initTCPServer(){
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(new TcpServerThraed());		
 	}

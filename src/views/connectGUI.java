@@ -23,9 +23,14 @@ import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class connectGUI {
-	connectGUI window;
+	/***********非視窗元件 屬性**********/
+	String Name = "計網助教";
+	
+	/***********宣告視窗元件屬性**********/
 	private JFrame frame;
 	JLabel yourIpLable = new JLabel("你的IP是:");
 	JButton createServer = new JButton("建立房間");
@@ -35,11 +40,17 @@ public class connectGUI {
 	JLayeredPane layeredPane = new JLayeredPane();
 	final JTextField targetIp = new JTextField();
 	final JPanel chatroom = new JPanel();
-	JTextArea textArea = new JTextArea();
-	JTextField textField;
+	static JTextArea textArea = new JTextArea("等候玩家中");
+	JTextField wantTalkWhat;
 	final JScrollPane scrollPane = new JScrollPane();
 	final JLabel lblip = new JLabel("請輸入IP");
 	static ExecutorService waitMessageService = Executors.newSingleThreadExecutor();
+	private final JLabel NameLabel = new JLabel("暱稱:");
+	private final JTextField inputName = new JTextField(Name);
+	private final JButton submitName = new JButton("修改暱稱");
+	
+	
+	
 
 	/**
 	 * Launch the application.
@@ -71,11 +82,11 @@ public class connectGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		inputName.setColumns(10);
 		frame = new JFrame();
-		frame.setBounds(100, 100, 482, 354);
+		frame.setBounds(100, 100, 486, 383);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // 關掉這個視窗會全關
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 關掉這個視窗不會全關
-        
         
 		String IP = null;
 	    try {
@@ -83,8 +94,6 @@ public class connectGUI {
 		} catch (UnknownHostException e) {e.printStackTrace();}
 		yourIpLable.setText("你的IP是 :"+IP);
 		
-		
-	    
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -92,19 +101,29 @@ public class connectGUI {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(34)
-							.addComponent(yourIpLable))
+							.addComponent(yourIpLable)
+							.addGap(49)
+							.addComponent(NameLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(inputName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(submitName, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(65)
 							.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(43, Short.MAX_VALUE))
+					.addContainerGap(67, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(12)
-					.addComponent(yourIpLable)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(yourIpLable)
+						.addComponent(NameLabel)
+						.addComponent(inputName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(submitName))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel = new JPanel();
@@ -149,8 +168,8 @@ public class connectGUI {
 		
 		layeredPane.add(chatroom);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		wantTalkWhat = new JTextField();
+		wantTalkWhat.setColumns(10);
 		
 		
 		
@@ -160,7 +179,7 @@ public class connectGUI {
 				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
 				.addGroup(Alignment.TRAILING, gl_chatroom.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+					.addComponent(wantTalkWhat, GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chatSubmit)
 					.addGap(12))
@@ -171,21 +190,19 @@ public class connectGUI {
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_chatroom.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(wantTalkWhat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(chatSubmit))
 					.addContainerGap())
 		);
 		scrollPane.setViewportView(textArea);
 		
-		textArea.setText("等候玩家中");
 		textArea.setEditable(false);
 		chatroom.setLayout(gl_chatroom);
 		frame.getContentPane().setLayout(groupLayout);
 		
 	}
 	/**
-	 * 
-	 * 
+	 *  創建 按鈕事件 或是其他事件區域
 	 */
 	private void createEvents() {
 		
@@ -193,7 +210,7 @@ public class connectGUI {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(frame, "建立房間囉");
-		        TCP.serverModule.initTCPServer(window);
+		        TCP.serverModule.initTCPServer();
 		        panel.setVisible(false);
 		        waitMessageService.execute(new waitMessageUpdate());
 //		        layeredPane.setLayer(panel_1, 5);
@@ -215,13 +232,22 @@ public class connectGUI {
 		chatSubmit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				UDP.API.sendUDPMessage("test");
+				UDP.API.sendUDPMessage(Name+":"+wantTalkWhat.getText());
+			}
+		});
+		submitName.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Name = inputName.getText();
 			}
 		});
 	}
 	public static void someOneConnectIn(){
 		UDP.API.iniUDPServer();
 		waitMessageService.shutdownNow();
+	}
+	public static void receiveChat(String msg){
+		textArea.append(msg+"\n");
 	}
 	class waitMessageUpdate implements Runnable {
 		public void run() {

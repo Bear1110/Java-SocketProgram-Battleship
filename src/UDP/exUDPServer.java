@@ -26,7 +26,7 @@ public class exUDPServer implements Runnable {
 			} // 設定接收的 UDP Socket.
 			
 			String msg = new String(buffer, 0, packet.getLength()); // 將接收訊息轉換為字串。
-			System.out.println(count + " : receive = " + msg); // 印出接收到的訊息。
+			views.connectGUI.receiveChat(msg);
 			socket.close(); // 關閉 UDP Socket.
 		}
 	}

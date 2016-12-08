@@ -27,7 +27,6 @@ public class exUDPSend extends Thread {
         DatagramSocket socket = new DatagramSocket();    // 建立傳送的 UDP Socket。
         socket.send(packet);                             // 傳送
         socket.close();                                 // 關閉 UDP socket.
-        System.out.println("???");
       } catch (Exception e) { e.printStackTrace(); }    // 若有錯誤產生，列印函數呼叫堆疊。
     }
 }
