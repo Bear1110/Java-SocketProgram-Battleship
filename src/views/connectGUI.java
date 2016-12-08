@@ -12,8 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -134,8 +132,7 @@ public class connectGUI {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(frame, "建立房間囉");
-				ExecutorService executorService = Executors.newSingleThreadExecutor();
-		        executorService.execute(new TCP.iniServerThraed());
+		        TCP.serverModule.initTCPServer();
 		        frame.getContentPane().remove(panel);
 		        frame.repaint();
 		        Game window = new Game();
