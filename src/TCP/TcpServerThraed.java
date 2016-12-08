@@ -6,8 +6,12 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TcpServerThraed implements Runnable {
+import views.connectGUI;
 
+public class TcpServerThraed implements Runnable {
+	
+	TcpServerThraed(){
+	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -20,6 +24,8 @@ public class TcpServerThraed implements Runnable {
 				Socket socket = serverSocket.accept();
 				String Ip = socket.getRemoteSocketAddress() + "";
 				TCP.serverModule.addClientIPTable(Ip); // add IP
+				UDP.API.otherIP = Ip;
+				views.connectGUI.someOneConnectIn();
 				threadExecutor.execute(new RequestThread(socket));
 			}
 		} catch (IOException e) {

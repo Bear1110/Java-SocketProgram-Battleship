@@ -3,7 +3,9 @@ package UDP;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class UDPAPI {
+public class API {
+
+	public static String otherIP = "";
 	/**
 	 * 
 	 */
