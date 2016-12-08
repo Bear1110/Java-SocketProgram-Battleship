@@ -17,14 +17,13 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class connectGUI {
 	/***********非視窗元件 屬性**********/
@@ -38,12 +37,12 @@ public class connectGUI {
 	JButton chatSubmit = new JButton("送出");
 	JPanel panel;
 	JLayeredPane layeredPane = new JLayeredPane();
+	JTextField wantTalkWhat;
 	final JTextField targetIp = new JTextField();
 	final JPanel chatroom = new JPanel();
-	static JTextArea textArea = new JTextArea("等候玩家中");
-	JTextField wantTalkWhat;
-	final JScrollPane scrollPane = new JScrollPane();
+	final static JScrollPane scrollPane = new JScrollPane();
 	final JLabel lblip = new JLabel("請輸入IP");
+	static JTextArea textArea = new JTextArea("等候玩家中");
 	static ExecutorService waitMessageService = Executors.newSingleThreadExecutor();
 	private final JLabel NameLabel = new JLabel("暱稱:");
 	private final JTextField inputName = new JTextField(Name);
@@ -234,6 +233,7 @@ public class connectGUI {
 			public void mouseClicked(MouseEvent arg0) {
 				textArea.append(Name+":"+wantTalkWhat.getText()+"\n");
 				UDP.API.sendUDPMessage(Name+":"+wantTalkWhat.getText());
+				scrollTobutton();
 			}
 		});
 		submitName.addMouseListener(new MouseAdapter() {
@@ -249,13 +249,19 @@ public class connectGUI {
 	}
 	public static void receiveChat(String msg){
 		textArea.append(msg+"\n");
+		scrollTobutton();
+	}
+	public static void scrollTobutton(){
+		JScrollBar vertical = scrollPane.getVerticalScrollBar(); // 捲到最底下用的
+		vertical.setValue( vertical.getMaximum() );
 	}
 	class waitMessageUpdate implements Runnable {
 		public void run() {
 			try {
 				while(true){
-					Thread.sleep(1000);
+					Thread.sleep(800);
 					textArea.append(".\n");
+					scrollTobutton();
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

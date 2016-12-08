@@ -15,7 +15,7 @@ public class exUDPServer implements Runnable {
 	public void run() {
 		final int SIZE = 8192; // 設定最大的訊息大小為 8192.
 		byte buffer[] = new byte[SIZE]; // 設定訊息暫存區
-		for (int count = 0;; count++) {
+		while(true) {
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);			
 			try {
 				socket = new DatagramSocket(port);

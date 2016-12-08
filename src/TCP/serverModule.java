@@ -4,7 +4,6 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import views.connectGUI;
 
 public class serverModule {
 	static Vector<String> v = new Vector<String>();

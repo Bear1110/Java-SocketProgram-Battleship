@@ -1,6 +1,5 @@
 package UDP;
 
-import java.io.*;
 import java.net.*;
  
 // 1. 本程式必須與 UdpServer.java 程式搭配執行，先執行 UdpServer 再執行本程式。
