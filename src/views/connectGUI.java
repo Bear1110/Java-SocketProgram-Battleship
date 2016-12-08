@@ -232,7 +232,7 @@ public class connectGUI {
 		chatSubmit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				textArea.append(Name+":"+wantTalkWhat.getText());
+				textArea.append(Name+":"+wantTalkWhat.getText()+"\n");
 				UDP.API.sendUDPMessage(Name+":"+wantTalkWhat.getText());
 			}
 		});
