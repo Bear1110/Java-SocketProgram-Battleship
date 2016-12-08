@@ -41,6 +41,6 @@ public class Game {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	private void createEvents(){
-		
+		//bear fuck
 	}
 }
