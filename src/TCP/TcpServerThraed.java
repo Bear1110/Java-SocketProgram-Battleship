@@ -19,13 +19,14 @@ public class TcpServerThraed implements Runnable {
 			serverSocket = new ServerSocket(5988);
 			System.out.println("Server listening requests...");
 			while (true) {
-				Socket socket = serverSocket.accept();
+				Socket socket = serverSocket.accept();				
 				String Ip = socket.getRemoteSocketAddress() + "";
 				TCP.serverModule.addClientIPTable(Ip); // add IP
 				UDP.API.otherIP = socket.getInetAddress();
 				System.out.println(UDP.API.otherIP+"");
 				views.connectGUI.someOneConnectIn();
 				threadExecutor.execute(new RequestThread(socket));
+				threadExecutor.execute(new FakeClient()); // °²ªºclient
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -32,9 +32,9 @@ class RequestThread implements Runnable {
 			try {
 				message = input.readUTF(); // 讀入送到server 的消息
 				System.out.println(Ip + " 對 Server說:" + message);
-				
 //				output.writeUTF("sdfasdfasdf"); // 送資料
 //				output.flush();
+				FakeClient.freebutton();
 				
 			} catch (IOException e) {
 				e.printStackTrace();

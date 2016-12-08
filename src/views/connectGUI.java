@@ -213,7 +213,6 @@ public class connectGUI {
 		        panel.setVisible(false);
 		        waitMessageService.execute(new waitMessageUpdate());
 //		        layeredPane.setLayer(panel_1, 5);
-		        Game window = new Game();
 			}
 		});
 		connectIp.addMouseListener(new MouseAdapter() {
@@ -246,6 +245,7 @@ public class connectGUI {
 	public static void someOneConnectIn(){
 		UDP.API.iniUDPServer();
 		waitMessageService.shutdownNow();
+        Game window = new Game();
 	}
 	public static void receiveChat(String msg){
 		textArea.append(msg+"\n");
@@ -263,10 +263,7 @@ public class connectGUI {
 					textArea.append(".\n");
 					scrollTobutton();
 				}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) {}
 		}
 	}	
 }

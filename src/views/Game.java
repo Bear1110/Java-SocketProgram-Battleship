@@ -4,24 +4,23 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class Game {
+import player_test.test;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Game {
 	private JFrame frame;
+	test player;
+
+	public JButton button = new JButton("\u4E00\u4EBA\u6309\u4E00\u4E0B");
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Game window = new Game();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -30,6 +29,7 @@ public class Game {
 		initialize();
 		createEvents();
 		frame.setVisible(true);
+		player = new test(this);   //¹Cª±ª«¥ó
 	}
 
 	/**
@@ -39,8 +39,31 @@ public class Game {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(184, Short.MAX_VALUE)
+					.addComponent(button)
+					.addGap(163))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(112)
+					.addComponent(button)
+					.addContainerGap(126, Short.MAX_VALUE))
+		);
+		frame.getContentPane().setLayout(groupLayout);
 	}
 	private void createEvents(){
-		
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				player.pushButton();
+			}
+		});
 	}
 }

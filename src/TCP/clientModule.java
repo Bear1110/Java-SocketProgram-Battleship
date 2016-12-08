@@ -31,6 +31,7 @@ public class clientModule {
 	}
 	
 	/**
+	 * 這只是例子 不要用可以刪掉
 	 * @param MoveCode   
 	 *  0    1          2          3        4
 	 *  get  TURNEAST   TURNSOUTH  TURNWEST TURNNORTH
@@ -47,7 +48,16 @@ public class clientModule {
 			e.printStackTrace();
 		}
 	}
-	
+	public static void sendMessage(String Message){
+		try {
+			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			output.writeUTF(Message); // 傳東西給server
+			output.flush(); // 清空緩衝區域 將東西強制送出
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public static void readServerMessage() {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
