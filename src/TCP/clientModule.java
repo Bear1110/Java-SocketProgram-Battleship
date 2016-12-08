@@ -2,6 +2,7 @@ package TCP;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +21,7 @@ public class clientModule {
 		int port = 5988;
 		try {
 			socket = new Socket(host, port);
+			UDP.API.otherIP = InetAddress.getByName(host);
 			return true;
 		}catch (IOException e) {
 			e.printStackTrace();

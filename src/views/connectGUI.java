@@ -110,6 +110,7 @@ public class connectGUI {
 		panel = new JPanel();
 		panel.setBounds(0, 0, 358, 272);
 		layeredPane.add(panel);
+		targetIp.setText("192.168.0.106");
 		targetIp.setColumns(10);
 		
 		GroupLayout gl_panel = new GroupLayout(panel);

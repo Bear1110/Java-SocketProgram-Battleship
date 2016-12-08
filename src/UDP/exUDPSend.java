@@ -7,14 +7,14 @@ import java.net.*;
 // 2. 本程式必須有一個參數，指定伺服器的 IP。
 // 用法範例： java UdpClient 127.0.0.1
  
-public class exUDPClientSend extends Thread {
+public class exUDPSend extends Thread {
     int port;            // port : 連接埠
     InetAddress server; // InetAddress 是 IP, 此處的 server 指的是伺服器 IP
     String msg;            // 欲傳送的訊息，每個 UdpClient 只能傳送一個訊息。
  
-    public exUDPClientSend(InetAddress IP,int pPort, String pMsg) throws Exception {
+    public exUDPSend(InetAddress IP,int pPort, String pMsg) throws Exception {
         port = pPort;                             // 設定連接埠
-        server = InetAddress.getLocalHost(); // 將伺服器網址轉換為 IP。
+        //server = InetAddress.getLocalHost(); // 將伺服器網址轉換為 IP。
         server = IP; // 將伺服器網址轉換為 IP。
         msg = pMsg;                                 // 設定傳送訊息。
     }
@@ -27,6 +27,7 @@ public class exUDPClientSend extends Thread {
         DatagramSocket socket = new DatagramSocket();    // 建立傳送的 UDP Socket。
         socket.send(packet);                             // 傳送
         socket.close();                                 // 關閉 UDP socket.
+        System.out.println("???");
       } catch (Exception e) { e.printStackTrace(); }    // 若有錯誤產生，列印函數呼叫堆疊。
     }
 }

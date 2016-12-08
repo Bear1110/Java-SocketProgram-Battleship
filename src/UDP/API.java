@@ -18,7 +18,7 @@ public class API {
 	public static void sendUDPMessage(String msg) {
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		try {
-			executorService.execute(new exUDPClientSend(otherIP, 5555, msg));
+			executorService.execute(new exUDPSend(otherIP, 5555, msg));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
