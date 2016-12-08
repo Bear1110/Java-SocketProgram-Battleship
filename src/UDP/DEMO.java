@@ -11,13 +11,20 @@ public class DEMO {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		UDP.API.sendUDPMessage("tttt");
+		//UDP.API.sendUDPMessage("tttt");
+		TCP.clientModule.connectServer("127.0.0.1");
+		TCP.clientModule.inputMoves(0);
+		
+		TCP.clientModule.readServerMessage();
+		
+		System.out.println("ddd");
 		try {
 			Thread.sleep(9000);
-		} catch (InterruptedException e) {
+		}catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }

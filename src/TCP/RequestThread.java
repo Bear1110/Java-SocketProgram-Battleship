@@ -31,7 +31,10 @@ class RequestThread implements Runnable {
 		while (!this.clientSocket.isClosed()) {
 			try {
 				message = input.readUTF(); // 讀入送到server 的消息
-				System.out.println(Ip + " 對 Server說:" + message);				
+				System.out.println(Ip + " 對 Server說:" + message);
+				
+//				output.writeUTF("sdfasdfasdf"); // 送資料
+//				output.flush();
 				
 			} catch (IOException e) {
 				e.printStackTrace();

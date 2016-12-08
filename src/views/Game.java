@@ -28,6 +28,7 @@ public class Game {
 	 */
 	public Game() {
 		initialize();
+		createEvents();
 		frame.setVisible(true);
 	}
 
@@ -39,5 +40,7 @@ public class Game {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	private void createEvents(){
+		
+	}
 }

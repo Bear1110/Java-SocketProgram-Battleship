@@ -133,17 +133,17 @@ public class connectGUI {
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addComponent(lblip)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(targetIp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+						.addComponent(targetIp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(1)
-							.addComponent(connectIp, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)))
+							.addComponent(connectIp, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)))
 					.addGap(90))
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(120)
 					.addComponent(createServer, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(129, Short.MAX_VALUE))
