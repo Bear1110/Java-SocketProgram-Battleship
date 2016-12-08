@@ -38,7 +38,7 @@ public class connectGUI {
 	JPanel panel;
 	JLayeredPane layeredPane = new JLayeredPane();
 	JTextField wantTalkWhat;
-	final JTextField targetIp = new JTextField();
+	final JTextField targetIp = new JTextField();//ddd
 	final JPanel chatroom = new JPanel();
 	final static JScrollPane scrollPane = new JScrollPane();
 	final JLabel lblip = new JLabel("½Ð¿é¤JIP");
