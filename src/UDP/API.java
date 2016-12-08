@@ -1,11 +1,12 @@
 package UDP;
 
+import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class API {
 
-	public static String otherIP = "";
+	public static InetAddress otherIP ;
 	/**
 	 * 
 	 */
@@ -17,7 +18,7 @@ public class API {
 	public static void sendUDPMessage(String msg) {
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		try {
-			executorService.execute(new exUDPClientSend("127.0.0.1", 5555, msg));
+			executorService.execute(new exUDPClientSend(otherIP, 5555, msg));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

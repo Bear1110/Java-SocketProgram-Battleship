@@ -24,7 +24,7 @@ public class TcpServerThraed implements Runnable {
 				Socket socket = serverSocket.accept();
 				String Ip = socket.getRemoteSocketAddress() + "";
 				TCP.serverModule.addClientIPTable(Ip); // add IP
-				UDP.API.otherIP = Ip;
+				UDP.API.otherIP = socket.getInetAddress();
 				views.connectGUI.someOneConnectIn();
 				threadExecutor.execute(new RequestThread(socket));
 			}

@@ -12,10 +12,10 @@ public class exUDPClientSend extends Thread {
     InetAddress server; // InetAddress 是 IP, 此處的 server 指的是伺服器 IP
     String msg;            // 欲傳送的訊息，每個 UdpClient 只能傳送一個訊息。
  
-    public exUDPClientSend(String IP,int pPort, String pMsg) throws Exception {
+    public exUDPClientSend(InetAddress IP,int pPort, String pMsg) throws Exception {
         port = pPort;                             // 設定連接埠
         server = InetAddress.getLocalHost(); // 將伺服器網址轉換為 IP。
-        server = InetAddress.getByName(IP); // 將伺服器網址轉換為 IP。
+        server = IP; // 將伺服器網址轉換為 IP。
         msg = pMsg;                                 // 設定傳送訊息。
     }
  
