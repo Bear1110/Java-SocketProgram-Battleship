@@ -63,6 +63,8 @@ public class Game {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				player.pushButton();
+
+				//bear fuck
 			}
 		});
 	}
