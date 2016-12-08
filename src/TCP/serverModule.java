@@ -24,5 +24,9 @@ public class serverModule {
 	public static void addClientIPTable(String ip) {
 		v.addElement(ip);
 	}
+	public static void sendMessage(String string) {
+		// TODO Auto-generated method stub
+		//RequestThread.sendDataToClient(string);
+	}
 	
 }

@@ -1,7 +1,5 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
 import player_test.test;
@@ -13,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Game {
+	Game myself;
 	private JFrame frame;
 	test player;
 
@@ -30,6 +29,7 @@ public class Game {
 		createEvents();
 		frame.setVisible(true);
 		player = new test(this);   //¹Cª±ª«¥ó
+		myself = this;
 	}
 
 	/**
@@ -62,9 +62,7 @@ public class Game {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				player.pushButton();
-
-				//bear fuck
+				player.pushButton(myself);
 			}
 		});
 	}

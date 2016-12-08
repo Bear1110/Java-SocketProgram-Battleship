@@ -222,7 +222,7 @@ public class connectGUI {
 					JOptionPane.showMessageDialog(frame, "連線成功");
 					panel.setVisible(false);
 					Game window = new Game();
-					UDP.API.iniUDPServer();
+					//UDP.API.iniUDPServer();
 				}else
 					JOptionPane.showMessageDialog(frame, "連線失敗");
 			}
@@ -243,8 +243,9 @@ public class connectGUI {
 		});
 	}
 	public static void someOneConnectIn(){
-		UDP.API.iniUDPServer();
+		//UDP.API.iniUDPServer();
 		waitMessageService.shutdownNow();
+		TCP.clientModule.connectServer("127.0.0.1");
         Game window = new Game();
 	}
 	public static void receiveChat(String msg){

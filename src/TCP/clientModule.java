@@ -58,14 +58,15 @@ public class clientModule {
 			e.printStackTrace();
 		}
 	}
-	public static void readServerMessage() {
+	public static String readServerMessage() {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
-			String test = input.readUTF(); // 또찯�壅퉠erver
-			System.out.println(test);
+			String message = input.readUTF(); // 또찯�壅퉠erver
+			return message;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return "Error!clientModule.readServerMessage()";
 	}
 }
