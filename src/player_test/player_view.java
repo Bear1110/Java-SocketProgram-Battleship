@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import views.Game;
 
-public class test {
+public class player_view {
 	boolean if_ImServer = TCP.serverModule.ifIamServer();
 	Game gameView;
 	String action = "Nothing";
@@ -15,7 +15,7 @@ public class test {
 	ExecutorService clientReceive = Executors.newSingleThreadExecutor();
 	
 	
-	public test(Game test) {
+	public player_view(Game test) {
 		gameView = test;
 		ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
 		threadExecutor.execute(new UpdateData()); // °²ªºclient
@@ -50,13 +50,13 @@ public class test {
 				String action = messageJSON.get("action").toString();
 				 if(!action.equals("Nothing")){
 					 String actionValue = messageJSON.get("actionValue").toString();
-					 if(action.equals("whichOne")){
+					 if(action.equals("enableButton")){
 						 if(actionValue.equals("1")){
 							 gameView.button.setEnabled(true);
 						 }
 					 }
 				 }
-				test.this.action = "Nothing";
+				player_view.this.action = "Nothing";
 			}
 		}
 		

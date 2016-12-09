@@ -2,7 +2,7 @@ package views;
 
 import javax.swing.JFrame;
 
-import player_test.test;
+import player_test.player_view;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 public class Game {
 	Game myself;
 	private JFrame frame;
-	test player;
+	player_view player;
 
 	public JButton button = new JButton("\u4E00\u4EBA\u6309\u4E00\u4E0B");
 
@@ -28,7 +28,7 @@ public class Game {
 		initialize();
 		createEvents();
 		frame.setVisible(true);
-		player = new test(this);   //遊玩物件
+		player = new player_view(this);   //遊玩物件
 		myself = this;
 	}
 

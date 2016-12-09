@@ -11,8 +11,9 @@ import java.util.concurrent.Executors;
 import org.json.JSONObject;
 
 public class TcpServerThraed implements Runnable {
-	int whichOne = 1;
-	int [] pressButton = {1,0}; //真的 client 是  前面那個 
+	int [] pressButton = {1,0}; //real client [key] is 0 
+	String actionBrodcast = "";
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -65,6 +66,9 @@ public class TcpServerThraed implements Runnable {
 				other = 0;
 			}
 		}
+		
+		
+		
 		public void run() {
 			System.out.println("有" + clientSocket.getRemoteSocketAddress() + "連線進來!");
 			JSONObject ServerData = new JSONObject();
@@ -74,24 +78,22 @@ public class TcpServerThraed implements Runnable {
 					DataInputStream input = new DataInputStream(this.clientSocket.getInputStream());
 					DataOutputStream output = new DataOutputStream(this.clientSocket.getOutputStream());
 					
-					message = input.readUTF(); // 讀入送到server 的消息
+					message = input.readUTF(); // read message from client
 					System.out.println(cha + " 對S說:" + message + pressButton[id]);
-					JSONObject messageJSON = new JSONObject(message); // 轉成JSON
+					JSONObject messageJSON = new JSONObject(message); // COonvert JSON
 					String action = messageJSON.get("action").toString();
 					 if(!action.equals("Nothing")){
-//						 String actionValue = messageJSON.get("actionValue").toString();
+						 String actionValue = messageJSON.get("actionValue").toString();
 						 if(action.equals("pressButton")){
-							 System.out.println("changeValue id:"+id + " other:"+other);
 							 pressButton[id] = 0;
 							 pressButton[other] = 1; 
+							 actionBrodcast = "enableButton";
 						 }
-					 }else{
-						 System.out.println("Nothing");
 					 }
 					 
 					String CanPress = pressButton[id]+""; 
 					ServerData.put("actionValue", CanPress);
-					ServerData.put("action", "whichOne");
+					ServerData.put("action", actionBrodcast);
 					output.writeUTF(ServerData.toString());
 					output.flush();
 					
