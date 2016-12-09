@@ -3,7 +3,6 @@ package UDP;
 public class DEMO {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 //		UDP.API.iniUDPServer();
 //		try {
 //			Thread.sleep(1000);

@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import views.Game;
 
 public class player_view {
-	boolean if_ImServer = TCP.serverModule.ifIamServer();
 	Game gameView;
 	String action = "Nothing";
 	String actionValue = "";
@@ -18,13 +17,13 @@ public class player_view {
 	public player_view(Game test) {
 		gameView = test;
 		ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
-		threadExecutor.execute(new UpdateData()); // °²ªºclient
+		threadExecutor.execute(new UpdateData()); //Update client
 	}
 	
-	public void pushButton(Game test) {
+	public void pushButton( ) {
 		action = "pressButton";
 		actionValue = "1";
-		test.button.setEnabled(false);
+		gameView.button.setEnabled(false);
 	}
 	
 	class UpdateData implements Runnable {
@@ -34,12 +33,8 @@ public class player_view {
 			JSONObject ClientData = new JSONObject();
 			while(true){
 				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				try {Thread.sleep(1000);} catch (InterruptedException e) {} 
+				
 				ClientData.put("action", action);
 				ClientData.put("actionValue", actionValue);
 				TCP.clientModule.sendMessage(ClientData.toString());

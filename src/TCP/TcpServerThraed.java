@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import org.json.JSONObject;
 
 public class TcpServerThraed implements Runnable {
+	/**********below is server data***************/
 	int [] pressButton = {1,0}; //real client [key] is 0 
 	String actionBrodcast = "";
 	
@@ -18,20 +19,16 @@ public class TcpServerThraed implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		ServerSocket serverSocket = null;
-		ExecutorService threadExecutor = Executors.newFixedThreadPool(3);
+		ExecutorService threadExecutor = Executors.newFixedThreadPool(2);
 		try {
 			serverSocket = new ServerSocket(5988);
 			System.out.println("Server listening requests...");
-			int i = 0;
-			while (true) {
-				Socket socket = serverSocket.accept();				
-				String Ip = socket.getRemoteSocketAddress() + "";
-				TCP.serverModule.addClientIPTable(Ip); // add IP
+			for (int i = 0 ; i < 2 ; i++) {// only accept two client
+				Socket socket = serverSocket.accept();
 				UDP.API.otherIP = socket.getInetAddress();
-				if(i==0)
+				if(i==0)//real client
 					views.connectGUI.someOneConnectIn();
 				threadExecutor.execute(new RequestThread(socket,i));
-				i++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -51,7 +48,6 @@ public class TcpServerThraed implements Runnable {
 	class RequestThread implements Runnable {
 		
 		private Socket clientSocket;
-		private String message = "";
 		int id ;
 		String cha;
 		int other ;
@@ -77,8 +73,8 @@ public class TcpServerThraed implements Runnable {
 				try {
 					DataInputStream input = new DataInputStream(this.clientSocket.getInputStream());
 					DataOutputStream output = new DataOutputStream(this.clientSocket.getOutputStream());
-					
-					message = input.readUTF(); // read message from client
+					////////////////////////////////////////////////////////////////////////////read
+					String message = input.readUTF(); // read message from client
 					System.out.println(cha + " 對S說:" + message + pressButton[id]);
 					JSONObject messageJSON = new JSONObject(message); // COonvert JSON
 					String action = messageJSON.get("action").toString();
@@ -90,13 +86,12 @@ public class TcpServerThraed implements Runnable {
 							 actionBrodcast = "enableButton";
 						 }
 					 }
-					 
+					 ////////////////////////////////////////////////////////////////////////////send 
 					String CanPress = pressButton[id]+""; 
 					ServerData.put("actionValue", CanPress);
 					ServerData.put("action", actionBrodcast);
 					output.writeUTF(ServerData.toString());
 					output.flush();
-					
 				} catch (IOException e) {
 					e.printStackTrace();
 					System.out.println(String.format("連線中斷,%s", clientSocket.getRemoteSocketAddress()));

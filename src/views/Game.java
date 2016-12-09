@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Game {
-	Game myself;
 	private JFrame frame;
 	player_view player;
 
@@ -29,7 +28,6 @@ public class Game {
 		createEvents();
 		frame.setVisible(true);
 		player = new player_view(this);   //¹Cª±ª«¥ó
-		myself = this;
 	}
 
 	/**
@@ -62,7 +60,7 @@ public class Game {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				player.pushButton(myself);
+				player.pushButton();
 			}
 		});
 	}

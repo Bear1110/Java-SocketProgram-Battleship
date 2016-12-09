@@ -194,6 +194,7 @@ public class connectGUI {
 		
 		textArea.setEditable(false);
 		chatroom.setLayout(gl_chatroom);
+		chatroom.setVisible(false);
 		frame.getContentPane().setLayout(groupLayout);
 		
 	}
@@ -208,6 +209,7 @@ public class connectGUI {
 				JOptionPane.showMessageDialog(frame, "建立房間囉");
 		        TCP.serverModule.initTCPServer();
 		        panel.setVisible(false);
+		        chatroom.setVisible(true);
 		        waitMessageService.execute(new waitMessageUpdate());
 //		        layeredPane.setLayer(panel_1, 5);
 			}
@@ -218,6 +220,7 @@ public class connectGUI {
 				if(TCP.clientModule.connectServer(targetIp.getText())){
 					JOptionPane.showMessageDialog(frame, "連線成功");
 					panel.setVisible(false);
+			        chatroom.setVisible(true);
 					Game window = new Game();
 					//UDP.API.iniUDPServer();
 				}else
