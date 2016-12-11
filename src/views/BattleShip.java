@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import player_test.playerController;
@@ -20,9 +21,9 @@ import player_test.playerController;
 public class BattleShip extends JFrame implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 	playerController cpu;
 	
-	boolean player = true; //true:player1, false:player2
+	public boolean yourTurn = false; //true:player1, false:player2
 	
-	static JFrame mainWindow = new JFrame("遊戲視窗");
+	public JFrame mainWindow = new JFrame("遊戲視窗");
 	static JPanel playerPanel[] = new JPanel[2];
 
 	static JFrame shipWindow[] = new JFrame[2];
@@ -40,7 +41,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	boolean changePlayer[] = {true, true, true, true};
 	static boolean shipOrientation = true; //true:left,right false:up,down
 	int endConditions[] = {17,17};
-	boolean gameStart = false;
+	public boolean gameStart = false;
 	
 	BattleShip(int order) {
 		initial();
@@ -55,7 +56,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		for (int i=0;i<10;i++) {
 			for (int j=0;j<10;j++) {
 				if (!gameStart) {
-					player1Map[i][j] = 0;
 					player2Map[i][j] = 0;
 				}
 				check1Map[i][j] = true;
@@ -162,7 +162,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}
 		if (changePlayer[0] == false && changePlayer[1] == false && changePlayer[2] == false && changePlayer[3] == false ) {
 			System.out.print("Change");
-			cpu.readyForStart();
+			cpu.readyForStart(player2Map);
 		}
 		
 	}
@@ -170,70 +170,29 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	public boolean check(int x, int y) {
 		
 		boolean result = true;
-		
-		if (player == true) {
 			
-			if (shipOrientation) {
-				for (int i=y;i<y+nowSize;i++) {
-					if (check1Map[x][i] == false) {
-						result = false;
-					}
-				}
-			} else {
-				for (int i=x;i<x+nowSize;i++) {
-					if (check1Map[i][y] == false) {
-						result = false;
-					}
+		if (shipOrientation) {
+			for (int i=y;i<y+nowSize;i++) {
+				if (check2Map[x][i] == false) {
+					result = false;
 				}
 			}
-			
 		} else {
-			
-			if (shipOrientation) {
-				for (int i=y;i<y+nowSize;i++) {
-					if (check2Map[x][i] == false) {
-						result = false;
-					}
-				}
-			} else {
-				for (int i=x;i<x+nowSize;i++) {
-					if (check2Map[i][y] == false) {
-						result = false;
-					}
+			for (int i=x;i<x+nowSize;i++) {
+				if (check2Map[i][y] == false) {
+					result = false;
 				}
 			}
-			
 		}
-		
 		return result;
 	}
 	//�����
 	public void Strike(int x, int y) {
 		
-		if (player == true) {
-			
-			if (check2Map[x][y]) {
-				if (player2Map[x][y] == 1) {
-					player2Map[x][y] = 9;
-					check2Map[x][y] = false;
-					GameOver(1);
-				} else {
-					player = false;
-				}
-			}
-			
+		if (yourTurn == true) {
+			cpu.attack(x,y);
 		} else {
-			
-			if (check1Map[x][y]) {
-				if (player1Map[x][y] == 1) {
-					player1Map[x][y] = 9;
-					check1Map[x][y] = false;
-					GameOver(0);
-				} else {
-					player = true;
-				}
-			}
-			
+			JOptionPane.showMessageDialog(mainWindow, "不是你攻擊啦");
 		}
 		
 	}
@@ -243,7 +202,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		endConditions[index]--;
 		
 		if (endConditions[index] == 0) {
-			if (player == true)
+			if (yourTurn == true)
 				s = "Player1 win!";
 			else
 				s = "Player2 win!";

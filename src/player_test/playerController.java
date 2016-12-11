@@ -3,7 +3,11 @@ package player_test;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.JOptionPane;
+
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import views.BattleShip;
 
@@ -12,6 +16,8 @@ public class playerController {
 	String action = "Nothing";
 	String actionValue = "";
 	String lastDo = "";
+	int[][] Map ;
+	
 	
 	ExecutorService clientReceive = Executors.newSingleThreadExecutor();
 	
@@ -25,6 +31,7 @@ public class playerController {
 	
 	
 	class UpdateData implements Runnable {
+		Gson gson = new Gson();
 
 		@Override
 		public void run() {
@@ -35,6 +42,9 @@ public class playerController {
 				
 				ClientData.put("action", action);
 				ClientData.put("actionValue", actionValue);
+				if(action.equals("ready")){
+					ClientData.put("Map", gson.toJson(Map));
+				}
 				TCP.clientModule.sendMessage(ClientData.toString());
 				
 				String ServerData = TCP.clientModule.readServerMessage();
@@ -47,7 +57,15 @@ public class playerController {
 					 if( action.equals("ready") && !lastDo.equals("ready") ){
 						 if(actionValue.equals("1")){
 							 lastDo = action;
-							 System.out.println("sssss");
+							 gameView.gameStart = true;
+							 if(messageJSON.get("yourTurn").toString().equals("1")){
+								 gameView.yourTurn = true;
+							 }
+						 }
+					 }else if (action.equals("attack") ){
+						 if(messageJSON.get("yourTurn").toString().equals("1")){
+							 gameView.yourTurn = true;
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "´«§A¤F");
 						 }
 					 }
 					 
@@ -61,8 +79,14 @@ public class playerController {
 
 
 
-	public void readyForStart() {
+	public void readyForStart(int[][] player2Map) {
 		action = "ready";
 		actionValue = "1";
+		Map = player2Map.clone();
+	}
+	public void attack(int x, int y) {
+		// TODO Auto-generated method stub
+		action = "attack";
+		actionValue = x+","+y;
 	}
 }
