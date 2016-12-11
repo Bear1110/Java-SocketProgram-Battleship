@@ -211,7 +211,6 @@ public class connectGUI {
 		        panel.setVisible(false);
 		        chatroom.setVisible(true);
 		        waitMessageService.execute(new waitMessageUpdate());
-//		        layeredPane.setLayer(panel_1, 5);
 			}
 		});
 		connectIp.addMouseListener(new MouseAdapter() {
@@ -222,7 +221,7 @@ public class connectGUI {
 					panel.setVisible(false);
 			        chatroom.setVisible(true);
 			        BattleShip window = new BattleShip(1);
-					//UDP.API.iniUDPServer();
+					UDP.API.iniUDPServer();
 				}else
 					JOptionPane.showMessageDialog(frame, "³s½u¥¢±Ñ");
 			}
@@ -243,7 +242,7 @@ public class connectGUI {
 		});
 	}
 	public static void someOneConnectIn(){
-		//UDP.API.iniUDPServer();
+		UDP.API.iniUDPServer();
 		waitMessageService.shutdownNow();
 		TCP.clientModule.connectServer("127.0.0.1");
 		BattleShip window = new BattleShip(2);

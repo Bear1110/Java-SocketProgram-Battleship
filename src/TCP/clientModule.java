@@ -69,4 +69,12 @@ public class clientModule {
 		}
 		return "Error!clientModule.readServerMessage()";
 	}
+	public static void disconnect(){
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

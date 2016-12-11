@@ -61,8 +61,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				check1Map[i][j] = true;
 				check2Map[i][j] = true;
 			}
-		}
-		
+		}		
 	}
 	//���漱���
 	public void changePlayer() {

@@ -104,6 +104,7 @@ public class TcpServerThraed implements Runnable {
 		
 		public void run() {
 			System.out.println("有" + clientSocket.getRemoteSocketAddress() + "連線進來!");
+			String finish = "N";
 			
 			while (!this.clientSocket.isClosed()) {
 				try {
@@ -120,11 +121,9 @@ public class TcpServerThraed implements Runnable {
 						 if(action.equals("ready")){
 							 ready[id] = 1;
 							 actionBrodcast = action;
-							 playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
+							 //playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
 						 }else if (action.equals("attack")){
 							 Print();
-							 
-							 whichTurn = whichTurn==1 ? 0 : 1 ;
 							 actionBrodcast = action;
 							 int target = id==1 ? 0 : 1; 
 							 String[] xy = actionValue.split(",");
@@ -135,7 +134,8 @@ public class TcpServerThraed implements Runnable {
 							 	if (playerMap[target][x][y] == 1) {
 							 		playerMap[target][x][y] = 9;
 									checkMap[target][x][y] = false;
-									GameOver(target);
+									finish = GameOver(target);
+									System.out.println("贏了"+finish);
 								} else {
 									System.out.println(id+"沒打到"+target+"  "+whichTurn);
 									whichTurn = whichTurn==1 ? 0 : 1 ;
@@ -152,11 +152,12 @@ public class TcpServerThraed implements Runnable {
 							lastDo = "yourTurn";
 							Print();
 						}
+					}else if(!finish.equals("N")){
+						actionBrodcast = "finish";
+						actionBrodcastValue = finish;
 					}else if (actionBrodcast.equals("attack")){
 						
 						ServerData.put("yourTurn", whichTurn==id ? 1 : 0);
-						System.out.println(whichTurn==id ? 1 : 0);
-						
 					}
 					///////////////////////////////////////////////////////////////////////////////////
 					ServerData.put("actionValue", actionBrodcastValue);
@@ -164,12 +165,7 @@ public class TcpServerThraed implements Runnable {
 					output.writeUTF(ServerData.toString());
 					output.flush();
 					
-//					BrodcastCount[id] = 1;
-//					if(BrodcastCount[0] ==1 && BrodcastCount[1] ==1 ) {
-//						BrodcastCount[0] = 0;
-//						BrodcastCount[1] = 0;
-//						actionBrodcast="";
-//					}
+					System.out.println("whichTurn:" +whichTurn);
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -191,10 +187,7 @@ public class TcpServerThraed implements Runnable {
 			endConditions[index]--;
 			
 			if (endConditions[index] == 0) {
-				if (whichTurn == 1)
-					s = "Player1 win!";
-				else
-					s = "Player2 win!";
+					s = (index^1)+"";
 			}
 			
 			return s;
