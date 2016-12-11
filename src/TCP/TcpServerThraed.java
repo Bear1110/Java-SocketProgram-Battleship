@@ -60,9 +60,10 @@ public class TcpServerThraed implements Runnable {
 			System.out.println("Server listening requests...");
 			for (int i = 0 ; i < 2 ; i++) {// only accept two client
 				Socket socket = serverSocket.accept();
-				UDP.API.otherIP = socket.getInetAddress();
-				if(i==0)//real client
+				if(i==0){//real client
 					views.connectGUI.someOneConnectIn();
+					UDP.API.otherIP = socket.getInetAddress();
+				}
 				threadExecutor.execute(new RequestThread(socket,i));
 			}
 		} catch (IOException e) {
@@ -165,7 +166,7 @@ public class TcpServerThraed implements Runnable {
 					output.writeUTF(ServerData.toString());
 					output.flush();
 					
-					System.out.println("whichTurn:" +whichTurn);
+					System.out.print("whichTurn:" +whichTurn);
 					
 				} catch (IOException e) {
 					e.printStackTrace();
