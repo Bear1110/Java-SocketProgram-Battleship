@@ -68,13 +68,12 @@ public class playerController {
 						 
 						 if(messageJSON.get("yourTurn").toString().equals("1")){
 							 gameView.yourTurn = true;
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "換你了");
+							 //JOptionPane.showMessageDialog(gameView.mainWindow, "換你了");
 						 }else{
 							 gameView.yourTurn = false;
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "沒中");
+							 //JOptionPane.showMessageDialog(gameView.mainWindow, "沒中");
 						 }
 					 }else if (action.equals("finish") ){
-						 JOptionPane.showMessageDialog(gameView.mainWindow, gameView.getTitle());
 						 if(actionValue.equals(gameView.mainWindow.getTitle())){
 							 JOptionPane.showMessageDialog(gameView.mainWindow, "你贏了大雞巴");
 						 }else{
