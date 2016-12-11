@@ -122,7 +122,7 @@ public class TcpServerThraed implements Runnable {
 						 if(action.equals("ready")){
 							 ready[id] = 1;
 							 actionBrodcast = action;
-							 //playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
+							 playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
 						 }else if (action.equals("attack")){
 							 Print();
 							 actionBrodcast = action;
