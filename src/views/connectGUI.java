@@ -221,7 +221,7 @@ public class connectGUI {
 					JOptionPane.showMessageDialog(frame, "連線成功");
 					panel.setVisible(false);
 			        chatroom.setVisible(true);
-					Game window = new Game();
+			        BattleShip window = new BattleShip(1);
 					//UDP.API.iniUDPServer();
 				}else
 					JOptionPane.showMessageDialog(frame, "連線失敗");
@@ -246,7 +246,7 @@ public class connectGUI {
 		//UDP.API.iniUDPServer();
 		waitMessageService.shutdownNow();
 		TCP.clientModule.connectServer("127.0.0.1");
-        Game window = new Game();
+		BattleShip window = new BattleShip(2);
 	}
 	public static void receiveChat(String msg){
 		textArea.append(msg+"\n");

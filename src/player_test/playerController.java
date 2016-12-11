@@ -5,26 +5,24 @@ import java.util.concurrent.Executors;
 
 import org.json.JSONObject;
 
-import views.Game;
+import views.BattleShip;
 
-public class player_view {
-	Game gameView;
+public class playerController {
+	BattleShip gameView;
 	String action = "Nothing";
 	String actionValue = "";
+	String lastDo = "";
+	
 	ExecutorService clientReceive = Executors.newSingleThreadExecutor();
 	
 	
-	public player_view(Game test) {
+	public playerController(BattleShip test) {
 		gameView = test;
 		ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
 		threadExecutor.execute(new UpdateData()); //Update client
 	}
 	
-	public void pushButton( ) {
-		action = "pressButton";
-		actionValue = "1";
-		gameView.button.setEnabled(false);
-	}
+	
 	
 	class UpdateData implements Runnable {
 
@@ -45,15 +43,26 @@ public class player_view {
 				String action = messageJSON.get("action").toString();
 				 if(!action.equals("Nothing")){
 					 String actionValue = messageJSON.get("actionValue").toString();
-					 if(action.equals("enableButton")){
+					 
+					 if( action.equals("ready") && !lastDo.equals("ready") ){
 						 if(actionValue.equals("1")){
-							 gameView.button.setEnabled(true);
+							 lastDo = action;
+							 System.out.println("sssss");
 						 }
 					 }
+					 
+					 
 				 }
-				player_view.this.action = "Nothing";
+				playerController.this.action = "Nothing";
 			}
 		}
 		
+	}
+
+
+
+	public void readyForStart() {
+		action = "ready";
+		actionValue = "1";
 	}
 }

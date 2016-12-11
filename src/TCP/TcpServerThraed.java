@@ -12,8 +12,22 @@ import org.json.JSONObject;
 
 public class TcpServerThraed implements Runnable {
 	/**********below is server data***************/
-	int [] pressButton = {1,0}; //real client [key] is 0 
+	int [] ready = {0,0}; //real client [key] is 0 
 	String actionBrodcast = "";
+	String actionBrodcastValue = "";
+	
+	/************************************/
+	
+	int shipCount[] = {1, 1, 2, 1};//
+	int shipSize[] = {5, 4, 3, 2}; //
+	int nowSize = 0;			   //
+	int nowShip;				   //
+	boolean changePlayer[] = {true, true, true, true};
+	static boolean shipOrientation = true; //true:left,right false:up,down
+
+	boolean gameStart = false;
+	int endConditions[] = {17,17};
+	/************************************/
 	
 	@Override
 	public void run() {
@@ -75,23 +89,27 @@ public class TcpServerThraed implements Runnable {
 					DataOutputStream output = new DataOutputStream(this.clientSocket.getOutputStream());
 					////////////////////////////////////////////////////////////////////////////read
 					String message = input.readUTF(); // read message from client
-					System.out.println(cha + " 對S說:" + message + pressButton[id]);
+					System.out.println(cha + " 對S說:" + message + ready[id]);
 					JSONObject messageJSON = new JSONObject(message); // COonvert JSON
 					String action = messageJSON.get("action").toString();
 					 if(!action.equals("Nothing")){
 						 String actionValue = messageJSON.get("actionValue").toString();
-						 if(action.equals("pressButton")){
-							 pressButton[id] = 0;
-							 pressButton[other] = 1; 
-							 actionBrodcast = "enableButton";
+						 if(action.equals("ready")){
+							 ready[id] = 1;
+							 actionBrodcast = action;
 						 }
 					 }
-					 ////////////////////////////////////////////////////////////////////////////send 
-					String CanPress = pressButton[id]+""; 
-					ServerData.put("actionValue", CanPress);
+					 ////////////////////////////////////////////////////////////////////////////send
+					if(actionBrodcast.equals("ready")){
+						if(ready[0]==1 && ready[1]==1){
+							actionBrodcastValue = 1+""; 
+						}
+					}
+					ServerData.put("actionValue", actionBrodcastValue);
 					ServerData.put("action", actionBrodcast);
 					output.writeUTF(ServerData.toString());
 					output.flush();
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 					System.out.println(String.format("連線中斷,%s", clientSocket.getRemoteSocketAddress()));
