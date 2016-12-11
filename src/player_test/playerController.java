@@ -60,7 +60,9 @@ public class playerController {
 							 gameView.gameStart = true;
 							 if(messageJSON.get("yourTurn").toString().equals("1")){
 								 gameView.yourTurn = true;
+								 
 							 }
+							 gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
 						 }
 					 }else if (action.equals("attack") ){
 						 if(messageJSON.get("yourTurn").toString().equals("1")){

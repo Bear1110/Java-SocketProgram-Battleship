@@ -22,7 +22,7 @@ public class TcpServerThraed implements Runnable {
 	int whichTurn = 0;
 	String actionBrodcast = "";
 	String actionBrodcastValue = "";
-	int BrodcastCount = 0;
+	int[] BrodcastCount = {0,0};
 	
 	/************************************/
 	
@@ -32,7 +32,7 @@ public class TcpServerThraed implements Runnable {
 	int nowShip;				   //
 	
 	int playerMap[][][] = new int[2][10][10];
-	static boolean checkMap[][][] = new boolean[2][10][10];
+	boolean checkMap[][][] = new boolean[2][10][10];
 	boolean changePlayer[] = {true, true, true, true};
 	static boolean shipOrientation = true; //true:left,right false:up,down
 
@@ -42,6 +42,16 @@ public class TcpServerThraed implements Runnable {
 	
 	@Override
 	public void run() {
+		
+		for(int i = 0 ; i < 2 ; i++){
+			for(int j = 0 ; j < 10 ; j++){
+				for(int k = 0 ; k < 10 ; k++){
+					checkMap[i][j][k]=  true;
+				}
+			}
+		}
+		
+		
 		// TODO Auto-generated method stub
 		ServerSocket serverSocket = null;
 		ExecutorService threadExecutor = Executors.newFixedThreadPool(2);
@@ -113,21 +123,23 @@ public class TcpServerThraed implements Runnable {
 							 playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
 						 }else if (action.equals("attack")){
 							 Print();
+							 
 							 whichTurn = whichTurn==1 ? 0 : 1 ;
 							 actionBrodcast = action;
 							 int target = id==1 ? 0 : 1; 
 							 String[] xy = actionValue.split(",");
 							 int x = Integer.parseInt(xy[0]);
 							 int y = Integer.parseInt(xy[1]);
+							System.out.println("Clicked point: (" + x + "," + y + ")");
 							 if (checkMap[target][x][y]) {
 							 	if (playerMap[target][x][y] == 1) {
 							 		playerMap[target][x][y] = 9;
 									checkMap[target][x][y] = false;
 									GameOver(target);
 								} else {
-									System.out.println(id+"沒打到"+target);
+									System.out.println(id+"沒打到"+target+"  "+whichTurn);
 									whichTurn = whichTurn==1 ? 0 : 1 ;
-									System.out.println(id+"沒打到"+target);
+									System.out.println(whichTurn);
 								}
 							}
 						 }
@@ -143,6 +155,7 @@ public class TcpServerThraed implements Runnable {
 					}else if (actionBrodcast.equals("attack")){
 						
 						ServerData.put("yourTurn", whichTurn==id ? 1 : 0);
+						System.out.println(whichTurn==id ? 1 : 0);
 						
 					}
 					///////////////////////////////////////////////////////////////////////////////////
@@ -150,11 +163,13 @@ public class TcpServerThraed implements Runnable {
 					ServerData.put("action", actionBrodcast);
 					output.writeUTF(ServerData.toString());
 					output.flush();
-					BrodcastCount++;
-					if(BrodcastCount==2){
-						BrodcastCount=0;
-						actionBrodcast="";
-					}
+					
+//					BrodcastCount[id] = 1;
+//					if(BrodcastCount[0] ==1 && BrodcastCount[1] ==1 ) {
+//						BrodcastCount[0] = 0;
+//						BrodcastCount[1] = 0;
+//						actionBrodcast="";
+//					}
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -185,7 +200,7 @@ public class TcpServerThraed implements Runnable {
 			return s;
 		}
 		public void Print(){
-			System.out.println("//////////////////////"+ whichTurn);
+			System.out.println("//////////////////////whichTurn"+ whichTurn);
 			
 			for (int i=0;i<10;i++) {
 				for (int j=0;j<10;j++) {
