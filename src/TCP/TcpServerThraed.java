@@ -22,21 +22,11 @@ public class TcpServerThraed implements Runnable {
 	int whichTurn = 0;
 	String actionBrodcast = "";
 	String actionBrodcastValue = "";
-	int[] BrodcastCount = {0,0};
+	int[] brodcastStatus = {0,0};
 	
 	/************************************/
-	
-	int shipCount[] = {1, 1, 2, 1};//
-	int shipSize[] = {5, 4, 3, 2}; //
-	int nowSize = 0;			   //
-	int nowShip;				   //
-	
 	int playerMap[][][] = new int[2][10][10];
 	boolean checkMap[][][] = new boolean[2][10][10];
-	boolean changePlayer[] = {true, true, true, true};
-	static boolean shipOrientation = true; //true:left,right false:up,down
-
-	boolean gameStart = false;
 	int endConditions[] = {17,17};
 	/************************************/
 	
@@ -50,8 +40,6 @@ public class TcpServerThraed implements Runnable {
 				}
 			}
 		}
-		
-		
 		// TODO Auto-generated method stub
 		ServerSocket serverSocket = null;
 		ExecutorService threadExecutor = Executors.newFixedThreadPool(2);
@@ -78,30 +66,18 @@ public class TcpServerThraed implements Runnable {
 					e.printStackTrace();
 				}
 		}
-
 	}
-	
 	class RequestThread implements Runnable {
 
 		Gson gson = new Gson();
 		private Socket clientSocket;
 		int id ;
-		String cha;
 		int other ;
-		String lastDo = "";
 		public RequestThread(Socket clientSocket, int id) {
 			this.clientSocket = clientSocket;
 			this.id = id;
-			if(id==0){
-				cha = "Client";
-				other = 1;
-			}else{
-				cha = "Server";
-				other = 0;
-			}
+			other = id^1;
 		}
-		
-		
 		
 		public void run() {
 			System.out.println("有" + clientSocket.getRemoteSocketAddress() + "連線進來!");
@@ -114,50 +90,49 @@ public class TcpServerThraed implements Runnable {
 					DataOutputStream output = new DataOutputStream(this.clientSocket.getOutputStream());
 					////////////////////////////////////////////////////////////////////////////read
 					String message = input.readUTF(); // read message from client
-//					System.out.println(cha + " 對S說:" + message + ready[id]);
 					JSONObject messageJSON = new JSONObject(message); // COonvert JSON
 					String action = messageJSON.get("action").toString();
-					 if(!action.equals("Nothing")){
-						 String actionValue = messageJSON.get("actionValue").toString();
-						 if(action.equals("ready")){
-							 ready[id] = 1;
-							 actionBrodcast = action;
-							 playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
-						 }else if (action.equals("attack")){
-							 Print();
-							 actionBrodcast = action;
-							 int target = id==1 ? 0 : 1; 
-							 String[] xy = actionValue.split(",");
-							 int x = Integer.parseInt(xy[0]);
-							 int y = Integer.parseInt(xy[1]);
+					String actionValue = messageJSON.get("actionValue").toString();
+					switch(action) {
+			           case "Nothing":
+			        	   
+			        	   break;
+			           case "ready": 
+			            	ready[id] = 1;
+							actionBrodcast = action;
+							playerMap[id] = gson.fromJson(messageJSON.getString("Map"),int[][].class);
+			                break; 
+			            case "attack":
+							actionBrodcast = action;
+							String[] xy = actionValue.split(",");
+							int x = Integer.parseInt(xy[0]);
+							int y = Integer.parseInt(xy[1]);
 							System.out.println("Clicked point: (" + x + "," + y + ")");
-							 if (checkMap[target][x][y]) {
-							 	if (playerMap[target][x][y] == 1) {
-							 		playerMap[target][x][y] = 9;
-									checkMap[target][x][y] = false;
-									finish = GameOver(target);
+							if (checkMap[other][x][y]) {
+								if (playerMap[other][x][y] == 1) {
+									playerMap[other][x][y] = 9;
+									checkMap[other][x][y] = false;
+									finish = GameOver(other);
 									System.out.println("贏了"+finish);
 								} else {
-									System.out.println(id+"沒打到"+target+"  "+whichTurn);
+									System.out.println(id+"沒打到"+other+"  "+whichTurn);
 									whichTurn = whichTurn==1 ? 0 : 1 ;
-									System.out.println(whichTurn);
 								}
 							}
-						 }
-					 }
-					 ////////////////////////////////////////////////////////////////////////////send
-					if(actionBrodcast.equals("ready") && !lastDo.equals("yourTurn")){
+			            	Print();
+			                break;
+			        }
+					////////////////////////////////////////////////////////////////////////////send
+					if(actionBrodcast.equals("ready")){
 						if(ready[0]==1 && ready[1]==1){
 							actionBrodcastValue = 1+"";
 							ServerData.put("yourTurn",  (whichTurn==id) ? 1 : 0 );
-							lastDo = "yourTurn";
 							Print();
 						}
 					}else if(!finish.equals("N")){
 						actionBrodcast = "finish";
 						actionBrodcastValue = finish;
 					}else if (actionBrodcast.equals("attack")){
-						
 						ServerData.put("yourTurn", whichTurn==id ? 1 : 0);
 					}
 					///////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +141,7 @@ public class TcpServerThraed implements Runnable {
 					output.writeUTF(ServerData.toString());
 					output.flush();
 					
-					System.out.print("whichTurn:" +whichTurn);
+					checkBrocast(brodcastStatus,id,actionBrodcast); //prevent double brocast
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -182,8 +157,19 @@ public class TcpServerThraed implements Runnable {
 			}
 
 		}
+		private void checkBrocast(int[] brodcastStatus , int player,String nowBrodcast){
+			if(!actionBrodcast.equals("") && nowBrodcast.equals(actionBrodcast)){
+				brodcastStatus[id] = 1;
+			}
+			if(brodcastStatus[0]*brodcastStatus[1]==1){
+				brodcastStatus[0]=0;
+				brodcastStatus[1]=0;
+				actionBrodcast="";
+			}
+			
+		}
 		
-		public String GameOver(int index) {
+		private String GameOver(int index) {
 			String s = "N";
 			endConditions[index]--;
 			
@@ -193,7 +179,7 @@ public class TcpServerThraed implements Runnable {
 			
 			return s;
 		}
-		public void Print(){
+		private void Print(){
 			System.out.println("//////////////////////whichTurn"+ whichTurn);
 			
 			for (int i=0;i<10;i++) {

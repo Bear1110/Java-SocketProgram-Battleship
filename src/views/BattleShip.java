@@ -30,9 +30,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	static JPanel shipPanel[] = new JPanel[2];
 	static JButton battleship[] = new JButton[4];
 	String shipName[] = {"航空母艦","大船","中船","小船"};
-	static int player1Map[][] = new int[10][10];
-	static int player2Map[][] = new int[10][10];
-	static boolean check1Map[][] = new boolean[10][10];
+	static int playerMap[][] = new int[10][10];
 	static boolean check2Map[][] = new boolean[10][10];
 	int shipCount[] = {1, 1, 2, 1};//
 	int shipSize[] = {5, 4, 3, 2}; //
@@ -40,7 +38,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	int nowShip;				   //
 	boolean changePlayer[] = {true, true, true, true};
 	static boolean shipOrientation = true; //true:left,right false:up,down
-	int endConditions[] = {17,17};
 	public boolean gameStart = false;
 	
 	BattleShip(int order) {
@@ -56,9 +53,8 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		for (int i=0;i<10;i++) {
 			for (int j=0;j<10;j++) {
 				if (!gameStart) {
-					player2Map[i][j] = 0;
+					playerMap[i][j] = 0;
 				}
-				check1Map[i][j] = true;
 				check2Map[i][j] = true;
 			}
 		}		
@@ -142,7 +138,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				if (y+nowSize <= 10) {
 					if (check(x,y) && nowSize != 0) {
 						for (int i=y;i<y+nowSize;i++) {
-							player2Map[x][i]++;
+							playerMap[x][i]++;
 							check2Map[x][i] = false;
 						}
 						judgeShip(nowShip);
@@ -152,7 +148,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				if (x+nowSize <= 10) {
 					if (check(x,y) && nowSize != 0) {
 						for (int i=x;i<x+nowSize;i++) {
-							player2Map[i][y]++;
+							playerMap[i][y]++;
 							check2Map[i][y] = false;
 						}
 						judgeShip(nowShip);
@@ -161,7 +157,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}
 		if (changePlayer[0] == false && changePlayer[1] == false && changePlayer[2] == false && changePlayer[3] == false ) {
 			System.out.print("Change");
-			cpu.readyForStart(player2Map);
+			cpu.readyForStart(playerMap);
 		}
 		
 	}
@@ -195,26 +191,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		}
 		
 	}
-	//��蝯���
-	public void GameOver(int index) {
-		String s;
-		endConditions[index]--;
-		
-		if (endConditions[index] == 0) {
-			if (yourTurn == true)
-				s = "Player1 win!";
-			else
-				s = "Player2 win!";
-			
-			JFrame endWindow = new JFrame("������");
-			JLabel text = new JLabel("��蝯������" + s);
-			endWindow.add(text);
-			endWindow.setSize(250,100);
-			endWindow.setLocationRelativeTo(null);
-			endWindow.setVisible(true);
-		}
-		
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -296,11 +273,11 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		
 		for (int i=0;i<10;i++) {
 			for (int j=0;j<10;j++) {
-				System.out.print(player1Map[i][j] + " ");
+				System.out.print(playerMap[i][j] + " ");
 			}
 			System.out.print("   |   ");
 			for (int j=0;j<10;j++) {
-				System.out.print(player2Map[i][j] + " ");
+				System.out.print(playerMap[i][j] + " ");
 			}
 			System.out.println();
 		}

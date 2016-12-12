@@ -15,12 +15,8 @@ public class playerController {
 	BattleShip gameView;
 	String action = "Nothing";
 	String actionValue = "";
-	String lastDo = "";
 	int[][] Map ;
-	
-	
 	ExecutorService clientReceive = Executors.newSingleThreadExecutor();
-	
 	
 	public playerController(BattleShip test) {
 		gameView = test;
@@ -28,7 +24,17 @@ public class playerController {
 		threadExecutor.execute(new UpdateData()); //Update client
 	}
 	
+	public void readyForStart(int[][] player2Map) {
+		action = "ready";
+		actionValue = "1";
+		Map = player2Map.clone();
+	}
 	
+	public void attack(int x, int y) {
+		// TODO Auto-generated method stub
+		action = "attack";
+		actionValue = x+","+y;
+	}
 	
 	class UpdateData implements Runnable {
 		Gson gson = new Gson();
@@ -51,55 +57,43 @@ public class playerController {
 				JSONObject messageJSON = new JSONObject(ServerData); // 轉成JSON
 				
 				String action = messageJSON.get("action").toString();
-				 if(!action.equals("Nothing")){
-					 String actionValue = messageJSON.get("actionValue").toString();
-					 
-					 if( action.equals("ready") && !lastDo.equals("ready") ){
-						 if(actionValue.equals("1")){
-							 lastDo = action;
-							 gameView.gameStart = true;
-							 if(messageJSON.get("yourTurn").toString().equals("1")){
-								 gameView.yourTurn = true;
-								 
-							 }
-							 gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
+				String actionValue = messageJSON.get("actionValue").toString();
+				switch(action) {
+		           case "Nothing":
+		        	   break;
+		           case "ready":
+		        	   if(actionValue.equals("1")){
+		        		   
+		        		   gameView.gameStart = true;
+		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
+		        			   
+		        			   gameView.yourTurn = true;
+		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "你先攻擊");
+		        		   }
+		        		   gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
 						 }
-					 }else if (action.equals("attack") ){
-						 
-						 if(messageJSON.get("yourTurn").toString().equals("1")){
+		                break; 
+		            case "attack":
+		            	 if(messageJSON.get("yourTurn").toString().equals("1")){
 							 gameView.yourTurn = true;
-							 //JOptionPane.showMessageDialog(gameView.mainWindow, "換你了");
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "換你了");
 						 }else{
 							 gameView.yourTurn = false;
-							 //JOptionPane.showMessageDialog(gameView.mainWindow, "沒中");
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "沒中");
 						 }
-					 }else if (action.equals("finish") ){
-						 if(actionValue.equals(gameView.mainWindow.getTitle())){
+		            	break;
+		            case "finish":
+		            	if(actionValue.equals(gameView.mainWindow.getTitle())){
 							 JOptionPane.showMessageDialog(gameView.mainWindow, "你贏了大雞巴");
 						 }else{
 							 JOptionPane.showMessageDialog(gameView.mainWindow, "你輸了廢物");
 						 }
 						 TCP.clientModule.disconnect();
-					 }
-					 
-					 
-				 }
+		            	break;
+		        }
 				playerController.this.action = "Nothing";
 			}
 		}
 		
-	}
-
-
-
-	public void readyForStart(int[][] player2Map) {
-		action = "ready";
-		actionValue = "1";
-		Map = player2Map.clone();
-	}
-	public void attack(int x, int y) {
-		// TODO Auto-generated method stub
-		action = "attack";
-		actionValue = x+","+y;
 	}
 }
