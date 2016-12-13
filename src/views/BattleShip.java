@@ -123,7 +123,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			        g2.setFont(f);
 					g2.setColor(Color.RED);				
 	                g2.setStroke(new BasicStroke(10));
-	                g2.draw(new Line2D.Float(0, 490, 600, 490));
+	                g2.draw(new Line2D.Float(0, 445, 600, 445));
 				}
 			};
 		}
@@ -301,7 +301,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		// TODO Auto-generated method stub
 		int x = (e.getX()) / 60;
 		int y = (e.getY() - 33) / 45;
-		System.out.println(e.getX() + "," + e.getY());
+		//System.out.println(e.getX() + "," + e.getY());
 		if (y >= 10) {
 			y = y - 10;
 		}
@@ -366,8 +366,8 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 //		System.out.println(e.getPoint());
 		int x = (e.getX()) / 60;
 		int y = (e.getY() - 33) / 45;
-		System.out.println(e.getX() + "," + e.getY());
-		System.out.println(x +"," + y);
+		//System.out.println(e.getX() + "," + e.getY());
+		//System.out.println(x +"," + y);
 	}
 	////////////////////////mouseMotion//////////////////////////
 
