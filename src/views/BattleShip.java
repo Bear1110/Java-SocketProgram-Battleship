@@ -29,7 +29,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	static JFrame shipWindow[] = new JFrame[2];
 	static JPanel shipPanel[] = new JPanel[2];
 	static JButton battleship[] = new JButton[4];
-	String shipName[] = {"航空母艦","大船","中船","小船"};
+	String shipName[] = {"航空母艦 ","大船","中船","小船"};
 	static int playerMap[][] = new int[10][10];
 	static boolean check2Map[][] = new boolean[10][10];
 	int shipCount[] = {1, 1, 2, 1};//
@@ -44,10 +44,10 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		initial();
 		createMap();
 		shipWindow(0);
-		cpu = new playerController(this);   //遊玩物件
+		cpu = new playerController(this);   //���隞�
 	}
 	
-	//�����
+	//嚙踝蕭豲蕭��蕭謘踝蕭����
 	public void initial() {
 
 		for (int i=0;i<10;i++) {
@@ -59,7 +59,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}
 		}		
 	}
-	//���漱���
+	//嚙踐�蕭嚙踝�摹嚙踝蕭嚙�
 	public void changePlayer() {
 		
 		shipWindow[0].setVisible(false);
@@ -75,7 +75,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		
 		shipWindow(1);
 	}
-	//銝餌�閬��
+	//���嚙踐�謘橘蕭嚙�
 	public void createMap() {
 		
 		mainWindow.setSize(300, 625);
@@ -104,10 +104,10 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
-	//��������
+	//嚙踝�蕭謍蕭嚙踝嚙踐嚙踐▽嚙踝蕭
 	public void shipWindow(int player) {
 		
-		shipWindow[player] = new JFrame("�摰�" + (player+1) + "������");
+		shipWindow[player] = new JFrame("造船室");
 		
 		battleship[0] = new JButton(shipName[0] + "x1");
 		battleship[1] = new JButton(shipName[1] + "x1");
@@ -128,7 +128,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		shipWindow[player].setVisible(true);
 		
 	}
-	//�蝵株�
+	//嚙踐����蕭謍�
 	public void settleShip(int x, int y) {
 				
 		System.out.println("Clicked point: (" + x + "," + y + ")");
@@ -161,7 +161,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		}
 		
 	}
-	//�蝵株�����甇斗��暺���
+	//嚙踐����蕭謍蕭嚙踐縈嚙踝��蕭謘��僱嚙踝蕭���豯伐蕭��蕭嚙�
 	public boolean check(int x, int y) {
 		
 		boolean result = true;
@@ -181,13 +181,13 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		}
 		return result;
 	}
-	//�����
+	//嚙踐�蕭嚙踝��蕭�嚙踐��
 	public void Strike(int x, int y) {
 		
 		if (yourTurn == true) {
 			cpu.attack(x,y);
 		} else {
-			JOptionPane.showMessageDialog(mainWindow, "不是你攻擊啦");
+			JOptionPane.showMessageDialog(mainWindow, "現在不是你攻擊唷");
 		}
 		
 	}
@@ -196,7 +196,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		//��雿輻���		
+		//嚙踝�蕭謘頛魂�蕭�嚙踝蕭謢對��		
 		if (e.getSource() == battleship[0]) {
 			nowShip = 0;
 			nowSize = shipSize[nowShip];
@@ -213,11 +213,11 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				
 	}
 	
-	//����鞈��
+	//嚙踐�蕭��蕭��蕭謍�嚙踝蕭
 	public void judgeShip(int index) {
-		nowShip = 0;		//��蝺刻�飛0
-		nowSize = 0;		//��憭批�飛0
-		shipCount[index]--;	//��������
+		nowShip = 0;		//嚙踝�蕭謍�嚙踐���0
+		nowSize = 0;		//嚙踝�蕭謍�嚙踐憌�0
+		shipCount[index]--;	//嚙踝�蕭謍蕭�嚙踐�蕭�嚙踝蕭嚙�
 		battleship[index].setText(shipName[index] + "x" + shipCount[index]);
 		if (shipCount[index]==0) {
 			battleship[index].setEnabled(false);
@@ -239,7 +239,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		int key = e.getKeyCode();
 		
 		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
-			shipOrientation = !shipOrientation; //霈������
+			shipOrientation = !shipOrientation; //���蕭謜�蕭謍蕭謘蕭嚙踝蕭
 		}
 		
 	}
