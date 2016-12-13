@@ -54,7 +54,7 @@ public class playerController {
 				TCP.clientModule.sendMessage(ClientData.toString());
 				
 				String ServerData = TCP.clientModule.readServerMessage();
-				JSONObject messageJSON = new JSONObject(ServerData); // Âà¦¨JSON
+				JSONObject messageJSON = new JSONObject(ServerData); // ï¿½à¦¨JSON
 				
 				String action = messageJSON.get("action").toString();
 				String actionValue = messageJSON.get("actionValue").toString();
@@ -68,7 +68,7 @@ public class playerController {
 		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
 		        			   
 		        			   gameView.yourTurn = true;
-		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "§A¥ı§ğÀ»");
+		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "ä½ å…ˆæ”»æ“Š");
 		        		   }
 		        		   gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
 						 }
@@ -76,17 +76,17 @@ public class playerController {
 		            case "attack":
 		            	 if(messageJSON.get("yourTurn").toString().equals("1")){
 							 gameView.yourTurn = true;
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "´«§A¤F");
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "ä½ çš„å›åˆ");
 						 }else{
 							 gameView.yourTurn = false;
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "¨S¤¤");
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "æ²’æ‰“ä¸­");
 						 }
 		            	break;
 		            case "finish":
 		            	if(actionValue.equals(gameView.mainWindow.getTitle())){
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "§AÄ¹¤F¤jÂû¤Ú");
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "ä½ è´äº†å¤§é›å·´");
 						 }else{
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "§A¿é¤F¼oª«");
+							 JOptionPane.showMessageDialog(gameView.mainWindow, "ä½ è¼¸äº†å»¢ç‰©");
 						 }
 						 TCP.clientModule.disconnect();
 		            	break;
