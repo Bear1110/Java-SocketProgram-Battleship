@@ -24,7 +24,7 @@ public class TcpServerThraed implements Runnable {
 	String actionBrodcastValue = "";
 	int[] brodcastStatus = {0,0};
 	
-	/************************************/
+	/**********************game Data**************/
 	int playerMap[][][] = new int[2][10][10];
 	boolean checkMap[][][] = new boolean[2][10][10];
 	int endConditions[] = {17,17};
@@ -80,7 +80,7 @@ public class TcpServerThraed implements Runnable {
 		}
 		
 		public void run() {
-			System.out.println("¦³" + clientSocket.getRemoteSocketAddress() + "³s½u¶i¨Ó!");
+			System.out.println("æœ‰" + clientSocket.getRemoteSocketAddress() + "é€£ç·šè¿‘ä¾†!");
 			String finish = "N";
 			
 			while (!this.clientSocket.isClosed()) {
@@ -113,9 +113,8 @@ public class TcpServerThraed implements Runnable {
 									playerMap[other][x][y] = 9;
 									checkMap[other][x][y] = false;
 									finish = GameOver(other);
-									System.out.println("Ä¹¤F"+finish);
 								} else {
-									System.out.println(id+"¨S¥´¨ì"+other+"  "+whichTurn);
+									System.out.println(id+"æ²’æ‰“åˆ°"+other+"  "+whichTurn);
 									whichTurn = whichTurn==1 ? 0 : 1 ;
 								}
 							}
@@ -123,7 +122,7 @@ public class TcpServerThraed implements Runnable {
 			                break;
 			        }
 					////////////////////////////////////////////////////////////////////////////send
-					if(actionBrodcast.equals("ready")){
+					if(actionBrodcast.equals("ready")  ){
 						if(ready[0]==1 && ready[1]==1){
 							actionBrodcastValue = 1+"";
 							ServerData.put("yourTurn",  (whichTurn==id) ? 1 : 0 );
@@ -133,7 +132,7 @@ public class TcpServerThraed implements Runnable {
 						actionBrodcast = "finish";
 						actionBrodcastValue = finish;
 					}else if (actionBrodcast.equals("attack")){
-						ServerData.put("yourTurn", whichTurn==id ? 1 : 0);
+						ServerData.put("yourTurn", whichTurn==id ? "1" : "0");
 					}
 					///////////////////////////////////////////////////////////////////////////////////
 					ServerData.put("actionValue", actionBrodcastValue);
@@ -145,13 +144,11 @@ public class TcpServerThraed implements Runnable {
 					
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.out.println(String.format("³s½u¤¤Â_,%s", clientSocket.getRemoteSocketAddress()));
+					System.out.println(String.format("é€£ç·šä¸­æ–·,%s", clientSocket.getRemoteSocketAddress()));
 					try {
 						if (this.clientSocket != null && !this.clientSocket.isClosed())
 							this.clientSocket.close();
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					}
+					} catch (IOException ex) {ex.printStackTrace();}
 				}
 
 			}
@@ -166,7 +163,6 @@ public class TcpServerThraed implements Runnable {
 				brodcastStatus[1]=0;
 				actionBrodcast="";
 			}
-			
 		}
 		
 		private String GameOver(int index) {
@@ -180,7 +176,7 @@ public class TcpServerThraed implements Runnable {
 			return s;
 		}
 		private void Print(){
-			System.out.println("//////////////////////whichTurn"+ whichTurn);
+			System.out.println("////////////whichTurn"+ whichTurn);
 			
 			for (int i=0;i<10;i++) {
 				for (int j=0;j<10;j++) {

@@ -241,6 +241,7 @@ public class connectGUI {
 				textArea.append(Name+":"+wantTalkWhat.getText()+"\n");
 				UDP.API.sendUDPMessage(Name+":"+wantTalkWhat.getText());
 				scrollTobutton();
+				wantTalkWhat.setText("");
 			}
 		});
 		submitName.addMouseListener(new MouseAdapter() {

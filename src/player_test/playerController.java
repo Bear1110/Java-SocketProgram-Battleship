@@ -12,10 +12,9 @@ import com.google.gson.Gson;
 import views.BattleShip;
 
 public class playerController {
-	BattleShip gameView;
-	String action = "Nothing";
-	String actionValue = "";
-	
+	private BattleShip gameView;
+	private String action = "Nothing";
+	private String actionValue = "";
 	int[][] Map ;
 	ExecutorService clientReceive = Executors.newSingleThreadExecutor();
 	
@@ -25,10 +24,10 @@ public class playerController {
 		threadExecutor.execute(new UpdateData()); //Update client
 	}
 	
-	public void readyForStart(int[][] player2Map) {
+	public void readyForStart(int[][] playerMap) {
 		action = "ready";
 		actionValue = "1";
-		Map = player2Map.clone();
+		Map = playerMap.clone();
 	}
 	
 	public void attack(int x, int y) {
@@ -41,7 +40,6 @@ public class playerController {
 		Gson gson = new Gson();
 		String dot = "";
 		String LabelMessage = "";
-		String lastDo = "";
 
 		@Override
 		public void run() {
@@ -58,7 +56,7 @@ public class playerController {
 				TCP.clientModule.sendMessage(ClientData.toString());
 				
 				String ServerData = TCP.clientModule.readServerMessage();
-				JSONObject messageJSON = new JSONObject(ServerData); // �নJSON
+				JSONObject messageJSON = new JSONObject(ServerData); // 轉成JSON
 				
 				String action = messageJSON.get("action").toString();
 				String actionValue = messageJSON.get("actionValue").toString();
@@ -66,24 +64,25 @@ public class playerController {
 		           case "Nothing":
 		        	   break;
 		           case "ready":
-		        	   if(actionValue.equals("1") && !lastDo.equals("ready")){
+		        	   if(actionValue.equals("1")){
 		        		   
 		        		   gameView.gameStart = true;
 		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
+		        			   
 		        			   gameView.yourTurn = true;
 		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "你先攻擊");
-		        			   lastDo = "ready";
 		        		   }
 		        		   gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
+		        		   gameView.condition.setText("遊戲開始,");
 						 }
 		                break; 
 		            case "attack":
 		            	 if(messageJSON.get("yourTurn").toString().equals("1")){
 							 gameView.yourTurn = true;
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "你的回合");
+							 gameView.condition.setText("換你了,");
 						 }else{
 							 gameView.yourTurn = false;
-							 JOptionPane.showMessageDialog(gameView.mainWindow, "沒打中");
+							 gameView.condition.setText("沒中,");
 						 }
 		            	break;
 		            case "finish":
@@ -95,12 +94,15 @@ public class playerController {
 						 TCP.clientModule.disconnect();
 		            	break;
 		        }
-				LabelMessage = gameView.condition.getText();
-				if(dot.length() > 3){
-					dot.replace("......", "");
+				
+				LabelMessage = gameView.condition.getText().split(",")[0];
+				if(dot.length()>=3){
+					dot = dot.replace("...", "");
+				}else{
+					dot+=".";
 				}
-				dot += ".";
-				gameView.condition.setText(LabelMessage+dot);
+				gameView.condition.setText(LabelMessage+","+dot);
+				playerController.this.action = "Nothing";
 			}
 		}
 		

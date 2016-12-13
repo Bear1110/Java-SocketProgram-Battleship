@@ -55,18 +55,18 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		conditionWindow();
 	}
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BattleShip window = new BattleShip(1);
-					window.mainWindow.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					BattleShip window = new BattleShip(1);
+//					window.mainWindow.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 	
 	public void initial() {
 
@@ -155,7 +155,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		
 		conditionWindow.setSize(600,140);
 		conditionWindow.setLocation(mainWindow.location().x+600, mainWindow.location().y+140);
-		condition = new JLabel("快擺船囉");
+		condition = new JLabel("快擺船囉,");
 		condition.setFont(new Font("新細明體", Font.PLAIN, 40));
 		conditionWindow.add(condition);
 		conditionWindow.setVisible(true);
@@ -191,7 +191,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}
 		if (changePlayer[0] == false && changePlayer[1] == false && changePlayer[2] == false && changePlayer[3] == false ) {
 			shipWindow.setVisible(false);
-			System.out.print("Change");
+			condition.setText("等待對面擺完,");
 			cpu.readyForStart(playerMap);
 		}
 		
