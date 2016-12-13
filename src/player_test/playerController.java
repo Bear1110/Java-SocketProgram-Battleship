@@ -38,6 +38,8 @@ public class playerController {
 	
 	class UpdateData implements Runnable {
 		Gson gson = new Gson();
+		String dot = "";
+		String LabelMessage = "";
 
 		@Override
 		public void run() {
@@ -66,9 +68,9 @@ public class playerController {
 		        		   
 		        		   gameView.gameStart = true;
 		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
-		        			   
 		        			   gameView.yourTurn = true;
 		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "你先攻擊");
+		        			   
 		        		   }
 		        		   gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
 						 }
@@ -91,7 +93,12 @@ public class playerController {
 						 TCP.clientModule.disconnect();
 		            	break;
 		        }
-				playerController.this.action = "Nothing";
+				LabelMessage = gameView.condition.getText();
+				if(dot.length() > 3){
+					dot.replace("...", "");
+				}
+				dot += ".";
+				gameView.condition.setText(LabelMessage+dot);
 			}
 		}
 		

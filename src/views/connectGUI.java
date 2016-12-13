@@ -28,8 +28,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class connectGUI {
-	/***********�D�������� �ݩ�**********/
-	String Name = "�p���U��";
+	/**********************************/
+	String Name = "助教好帥";
 	
 	/***********�ŧi���������ݩ�**********/
 	private JFrame frame;
