@@ -24,29 +24,31 @@ import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class connectGUI {
-	/***********«Dµøµ¡¤¸¥ó Äİ©Ê**********/
-	String Name = "­pºô§U±Ğ";
+	/***********ï¿½Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½İ©ï¿½**********/
+	String Name = "ï¿½pï¿½ï¿½ï¿½Uï¿½ï¿½";
 	
-	/***********«Å§iµøµ¡¤¸¥óÄİ©Ê**********/
+	/***********ï¿½Å§iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ©ï¿½**********/
 	private JFrame frame;
-	JLabel yourIpLable = new JLabel("§AªºIP¬O:");
-	JButton createServer = new JButton("«Ø¥ß©Ğ¶¡");
-	JButton connectIp = new JButton("«Ø¥ß³s½u");
-	JButton chatSubmit = new JButton("°e¥X");
+	JLabel yourIpLable = new JLabel("");
+	JButton createServer = new JButton("å»ºç«‹æˆ¿é–“");
+	JButton connectIp = new JButton("é€£ç·šè‡³æ­¤IP");
+	JButton chatSubmit = new JButton("é€å‡º");
 	JPanel panel;
 	JLayeredPane layeredPane = new JLayeredPane();
 	JTextField wantTalkWhat;
-	final JTextField targetIp = new JTextField();//ddd
+	final JTextField targetIp = new JTextField();
 	final JPanel chatroom = new JPanel();
 	final static JScrollPane scrollPane = new JScrollPane();
-	final JLabel lblip = new JLabel("½Ğ¿é¤JIP");
-	static JTextArea textArea = new JTextArea("µ¥­Ôª±®a¤¤");
+	final JLabel lblip = new JLabel("ç›®æ¨™IP");
+	static JTextArea textArea = new JTextArea("ç­‰å¾…ä¸­");
 	static ExecutorService waitMessageService = Executors.newSingleThreadExecutor();
-	private final JLabel NameLabel = new JLabel("¼ÊºÙ:");
-	private final JTextField inputName = new JTextField(Name);
-	private final JButton submitName = new JButton("­×§ï¼ÊºÙ");
+	private final JLabel NameLabel = new JLabel("æš±ç¨±");
+	private final JTextField inputName = new JTextField("åŠ©æ•™å¥½å¸¥");
+	private final JButton submitName = new JButton("æ›´æ”¹");
 	
 	
 	
@@ -84,14 +86,14 @@ public class connectGUI {
 		inputName.setColumns(10);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 486, 383);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Ãö±¼³o­Óµøµ¡·|¥şÃö
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Ãö±¼³o­Óµøµ¡¤£·|¥şÃö
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Óµï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½
         
 		String IP = null;
 	    try {
 			IP = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {e.printStackTrace();}
-		yourIpLable.setText("§AªºIP¬O :"+IP);
+		yourIpLable.setText("ä½ çš„IPæ˜¯:192.168.0.106");
 		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -146,6 +148,14 @@ public class connectGUI {
 					.addComponent(createServer, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(131, Short.MAX_VALUE))
 		);
+		createServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		connectIp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -199,14 +209,14 @@ public class connectGUI {
 		
 	}
 	/**
-	 *  ³Ğ«Ø «ö¶s¨Æ¥ó ©Î¬O¨ä¥L¨Æ¥ó°Ï°ì
+	 *  ï¿½Ğ«ï¿½ ï¿½ï¿½ï¿½sï¿½Æ¥ï¿½ ï¿½Î¬Oï¿½ï¿½Lï¿½Æ¥ï¿½Ï°ï¿½
 	 */
 	private void createEvents() {
 		
 		createServer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(frame, "«Ø¥ß©Ğ¶¡Åo");
+				JOptionPane.showMessageDialog(frame, "å»ºç«‹æˆ¿é–“");
 		        TCP.serverModule.initTCPServer();
 		        panel.setVisible(false);
 		        chatroom.setVisible(true);
@@ -217,13 +227,13 @@ public class connectGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(TCP.clientModule.connectServer(targetIp.getText())){
-					JOptionPane.showMessageDialog(frame, "³s½u¦¨¥\");
+					JOptionPane.showMessageDialog(frame, "é€£ç·šæˆåŠŸ");
 					panel.setVisible(false);
 			        chatroom.setVisible(true);
 			        BattleShip window = new BattleShip(1);
 					UDP.API.iniUDPServer();
 				}else
-					JOptionPane.showMessageDialog(frame, "³s½u¥¢±Ñ");
+					JOptionPane.showMessageDialog(frame, "é€£ç·šå¤±æ•—");
 			}
 		});
 		chatSubmit.addMouseListener(new MouseAdapter() {
@@ -252,7 +262,7 @@ public class connectGUI {
 		scrollTobutton();
 	}
 	public static void scrollTobutton(){
-		JScrollBar vertical = scrollPane.getVerticalScrollBar(); // ±²¨ì³Ì©³¤U¥Îªº
+		JScrollBar vertical = scrollPane.getVerticalScrollBar(); // ï¿½ï¿½ï¿½ï¿½Ì©ï¿½ï¿½Uï¿½Îªï¿½
 		vertical.setValue( vertical.getMaximum() );
 	}
 	class waitMessageUpdate implements Runnable {
