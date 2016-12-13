@@ -155,7 +155,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		
 		conditionWindow.setSize(600,140);
 		conditionWindow.setLocation(mainWindow.location().x+600, mainWindow.location().y+140);
-		condition = new JLabel("快擺船囉.");
+		condition = new JLabel("快擺船囉");
 		condition.setFont(new Font("新細明體", Font.PLAIN, 40));
 		conditionWindow.add(condition);
 		conditionWindow.setVisible(true);

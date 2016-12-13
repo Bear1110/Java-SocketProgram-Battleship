@@ -15,6 +15,7 @@ public class playerController {
 	BattleShip gameView;
 	String action = "Nothing";
 	String actionValue = "";
+	
 	int[][] Map ;
 	ExecutorService clientReceive = Executors.newSingleThreadExecutor();
 	
@@ -40,6 +41,7 @@ public class playerController {
 		Gson gson = new Gson();
 		String dot = "";
 		String LabelMessage = "";
+		String lastDo = "";
 
 		@Override
 		public void run() {
@@ -64,13 +66,13 @@ public class playerController {
 		           case "Nothing":
 		        	   break;
 		           case "ready":
-		        	   if(actionValue.equals("1")){
+		        	   if(actionValue.equals("1") && !lastDo.equals("ready")){
 		        		   
 		        		   gameView.gameStart = true;
 		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
 		        			   gameView.yourTurn = true;
 		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "你先攻擊");
-		        			   
+		        			   lastDo = "ready";
 		        		   }
 		        		   gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
 						 }
@@ -95,7 +97,7 @@ public class playerController {
 		        }
 				LabelMessage = gameView.condition.getText();
 				if(dot.length() > 3){
-					dot.replace("...", "");
+					dot.replace("......", "");
 				}
 				dot += ".";
 				gameView.condition.setText(LabelMessage+dot);
