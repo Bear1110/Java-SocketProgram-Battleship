@@ -86,8 +86,7 @@ public class connectGUI {
 		inputName.setColumns(10);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 486, 383);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // �����o�ӵ����|����
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // �����o�ӵ������|����
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
 		String IP = null;
 	    try {

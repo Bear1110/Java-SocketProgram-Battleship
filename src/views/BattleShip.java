@@ -1,6 +1,11 @@
 package views;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,7 +53,18 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		cpu = new playerController(this);   //���隞�
 	}
 	
-	//嚙踝蕭豲蕭��蕭謘踝蕭����
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BattleShip window = new BattleShip(1);
+					window.mainWindow.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	public void initial() {
 
 		for (int i=0;i<10;i++) {
@@ -59,7 +76,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}
 		}		
 	}
-	//嚙踐�蕭嚙踝�摹嚙踝蕭嚙�
+	
 	public void changePlayer() {
 		
 		shipWindow[0].setVisible(false);
@@ -75,25 +92,47 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		
 		shipWindow(1);
 	}
-	//���嚙踐�謘橘蕭嚙�
+	
 	public void createMap() {
 		
-		mainWindow.setSize(300, 625);
-		mainWindow.setLocation(60, 150);
+		mainWindow.setSize(600, 940);
+		mainWindow.setLocation(60, 50);
 		mainWindow.addKeyListener(this);
 		mainWindow.addMouseListener(this);
 		mainWindow.addMouseMotionListener(this);
 		
 		for (int i=0;i<2;i++)
 		{
-			playerPanel[i] = new JPanel();
+			playerPanel[i] = new JPanel(){
+				protected void paintComponent(Graphics g) {
+					super.paintComponents(g);
+					
+					for (int i = 0; i <= 18; i++) {
+						int left = 40 + i * 45;
+						g.drawLine(0, left , 600, left );
+					}
+					
+					g.setColor(Color.BLACK);
+					for (int i = 0; i <= 10; i++) {
+						int top = 51 + i * 60;
+						g.drawLine(top, 0, top , 940);
+					}
+					Graphics2D g2 = (Graphics2D) g;
+			        int fontSize = 40;
+			        Font f = new Font("Comic Sans MS", Font.BOLD, fontSize);
+			        g2.setFont(f);
+					g2.setColor(Color.RED);				
+	                g2.setStroke(new BasicStroke(10));
+	                g2.draw(new Line2D.Float(0, 490, 600, 490));
+				}
+			};
 		}
 		
-		playerPanel[0].setSize(300, 300);
+		playerPanel[0].setSize(600, 300);
 		playerPanel[0].setLocation(0, 0);
 		playerPanel[0].setBackground(Color.gray);
 		
-		playerPanel[1].setSize(300, 300);
+		playerPanel[1].setSize(600, 300);
 		playerPanel[1].setLocation(0, 300);
 		playerPanel[1].setBackground(Color.blue);
 		
@@ -104,6 +143,9 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
+	
+	
+	
 	//嚙踝�蕭謍蕭嚙踝嚙踐嚙踐▽嚙踝蕭
 	public void shipWindow(int player) {
 		
@@ -121,13 +163,14 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			shipPanel[player].add(battleship[i]);
 		}
 		
-		shipWindow[player].setSize(420,140);
-		shipWindow[player].setLocation(mainWindow.location().x+300, mainWindow.location().y);
+		shipWindow[player].setSize(600,140);
+		shipWindow[player].setLocation(mainWindow.location().x+600, mainWindow.location().y);
 		shipWindow[player].add(shipPanel[player]);
 		shipWindow[player].addKeyListener(this);
 		shipWindow[player].setVisible(true);
 		
 	}
+	
 	//嚙踐����蕭謍�
 	public void settleShip(int x, int y) {
 				
@@ -256,9 +299,9 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int x = e.getX() / 30;
-		int y = (e.getY() - 25) / 30;
-
+		int x = (e.getX()) / 60;
+		int y = (e.getY() - 33) / 45;
+		System.out.println(e.getX() + "," + e.getY());
 		if (y >= 10) {
 			y = y - 10;
 		}
@@ -320,7 +363,11 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println(e.getPoint());
+//		System.out.println(e.getPoint());
+		int x = (e.getX()) / 60;
+		int y = (e.getY() - 33) / 45;
+		System.out.println(e.getX() + "," + e.getY());
+		System.out.println(x +"," + y);
 	}
 	////////////////////////mouseMotion//////////////////////////
 
