@@ -15,12 +15,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
-
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import player_test.playerController;
 
@@ -33,7 +43,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	public JFrame conditionWindow;
 	public JPanel conditionPanel;
 	JFrame shipWindow;
-	JPanel playerPanel[] = new JPanel[2];
+	JPanel playerPanel = new JPanel();
 	JPanel shipPanel = new JPanel();
 	JButton battleship[] = new JButton[4];
 	String shipName[] = {"航空母艦 ","大船","中船","小船"};
@@ -47,6 +57,14 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	boolean shipOrientation = true; //true:left,right false:up,down
 	public JLabel condition ;
 	
+	BufferedImage surface = new BufferedImage(609,940,BufferedImage.TYPE_INT_RGB);
+	JLabel view;
+	
+	int[] dotX = new int[11];
+	int[] dotY = new int[21];
+	int[] dotXX = new int[11];
+	int[] dotYY = new int[21];
+	
 	BattleShip(int order) {
 		initial();
 		createMap();
@@ -55,18 +73,18 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		conditionWindow();
 	}
 	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					BattleShip window = new BattleShip(1);
-//					window.mainWindow.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BattleShip window = new BattleShip(1);
+					window.mainWindow.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	
 	public void initial() {
 
@@ -87,45 +105,51 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		mainWindow.addKeyListener(this);
 		mainWindow.addMouseListener(this);
 		mainWindow.addMouseMotionListener(this);
-		
-		for (int i=0;i<2;i++)
-		{
-			playerPanel[i] = new JPanel(){
-				protected void paintComponent(Graphics g) {
-					super.paintComponents(g);
-					
-					for (int i = 0; i <= 18; i++) {
-						int left = 40 + i * 45;
-						g.drawLine(0, left , 600, left );
-					}
-					
-					g.setColor(Color.BLACK);
-					for (int i = 0; i < 10; i++) {
-						int top = 51 + i * 60;
-						g.drawLine(top, 0, top , 940);
-					}
-					Graphics2D g2 = (Graphics2D) g;
-			        int fontSize = 40;
-			        Font f = new Font("Comic Sans MS", Font.BOLD, fontSize);
-			        g2.setFont(f);
-					g2.setColor(Color.RED);				
-	                g2.setStroke(new BasicStroke(10));
-	                g2.draw(new Line2D.Float(0, 445, 600, 445));
-				}
-			};
-			playerPanel[i].setSize(600, 470);
+		for(int i = 0 ; i < 20 ;i++){
+			dotY[i] =  i * 45;
 		}
-		playerPanel[0].setLocation(0, 0);
-		playerPanel[1].setLocation(0, 470);
+		for(int i = 0 ; i < 11 ;i++){
+			dotX[i] =  i * 60;
+		}
+		playerPanel = new JPanel(){
+			protected void paintComponent(Graphics g) {
+				super.paintComponents(g);
+				
+				for (int i = 0; i <= 19; i++) {
+					int left = dotY[i];
+					g.drawLine(0, left , 600, left );
+				}					
+				g.setColor(Color.BLACK);
+				for (int i = 0; i < 11; i++) {
+					int top = dotX[i];
+					g.drawLine(top, 0, top , 940);
+				}
+				Graphics2D g2 = (Graphics2D) g;
+		        int fontSize = 40;
+		        Font f = new Font("Comic Sans MS", Font.BOLD, fontSize);
+		        g2.setFont(f);
+				g2.setColor(Color.RED);				
+                g2.setStroke(new BasicStroke(10));
+                g2.draw(new Line2D.Float(0, 445, 600, 445));
+			}
+		};
+		playerPanel.setSize(600, 940);
+		playerPanel.setLocation(0, 0);
 		
-		for (int i=0;i<2;i++) 
-			mainWindow.add(playerPanel[i]);
+		Graphics g = surface.getGraphics();
+		g.setColor(Color.lightGray);
+        g.fillRect(0,0,609,940);
+        g.dispose();
+        
+		view = new JLabel(new ImageIcon(surface));
 		
+		mainWindow.add(playerPanel);
+		mainWindow.add(view);
 		mainWindow.setVisible(true);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	//嚙踝�蕭謍蕭嚙踝嚙踐嚙踐▽嚙踝蕭
+
 	public void shipWindow() {
 		
 		shipWindow = new JFrame("造船室");
@@ -145,7 +169,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		shipWindow.setSize(600,140);
 		shipWindow.setLocation(mainWindow.location().x+600, mainWindow.location().y);
 		shipWindow.add(shipPanel);
-		shipWindow.addKeyListener(this);
 		shipWindow.setVisible(true);
 		
 	}
@@ -161,19 +184,42 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		conditionWindow.setVisible(true);
 		
 	}
-	
-	//嚙踐����蕭謍�
+	//
 	public void settleShip(int x, int y) {
 				
-		System.out.println("Clicked point: (" + x + "," + y + ")");
+		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
+		int[][] shipSize = {{300,235},{240,188},{180,141},{120,94}};
 		
-			
 			if (shipOrientation) {
 				if (y+nowSize <= 10) {
 					if (check(x,y) && nowSize != 0) {
 						for (int i=y;i<y+nowSize;i++) {
 							playerMap[x][i]++;
 							checkMap[x][i] = false;
+
+							SwingUtilities.invokeLater(new Runnable() {
+					            @Override
+					            public void run() {
+					                 Graphics g = surface.getGraphics();
+					                 BufferedImage image;
+									try {
+										int X = dotX[y]+8;
+										int Y = dotY[x+10]+20;
+										image = ImageIO.read(new File("src/res/png/"+nowShip+".png").toURI().toURL());
+										g.drawImage(image,X ,Y ,shipSize[nowShip][0],47,null);
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+					                 g.dispose();
+					                 view.repaint();
+					                 playerPanel.validate();
+					                 
+					                 
+					                 nowSize = 0;
+					                 
+					            }
+					        });
 						}
 						judgeShip(nowShip);
 					}
@@ -184,6 +230,29 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 						for (int i=x;i<x+nowSize;i++) {
 							playerMap[i][y]++;
 							checkMap[i][y] = false;
+							
+
+							SwingUtilities.invokeLater(new Runnable() {
+					            @Override
+					            public void run() {
+					                 Graphics g = surface.getGraphics();
+					                 BufferedImage image;
+									try {
+										int X = dotX[y]+10;
+										int Y = dotY[x+10]+20;
+										image = ImageIO.read(new File("src/res/png/"+nowShip+"r.png").toURI().toURL());
+						                 g.drawImage(image,X ,Y ,60,shipSize[nowShip][1],null);
+						                 System.out.println("nowShip"+nowShip);
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+					                 g.dispose();
+					                 view.repaint();
+					                 playerPanel.validate();
+					                 nowSize=0;
+					            }
+					        });
 						}
 						judgeShip(nowShip);
 					}
@@ -228,8 +297,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		//嚙踝�蕭謘頛魂�蕭�嚙踝蕭謢對��		
 		if (e.getSource() == battleship[0]) {
 			nowShip = 0;
 			nowSize = shipSize[nowShip];
@@ -247,8 +314,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	
 	//嚙踐�蕭��蕭��蕭謍�嚙踝蕭
 	public void judgeShip(int index) {
-		nowShip = 0;		//嚙踝�蕭謍�嚙踐���0
-		nowSize = 0;		//嚙踝�蕭謍�嚙踐憌�0
 		shipCount[index]--;	//嚙踝�蕭謍蕭�嚙踐�蕭�嚙踝蕭嚙�
 		battleship[index].setText(shipName[index] + "x" + shipCount[index]);
 		if (shipCount[index]==0) {
@@ -286,17 +351,19 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	/////////////////////////mouseListener////////////////////////
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		int x = (e.getX()) / 60;
 		int y = (e.getY() - 33) / 45;
-		//System.out.println(e.getX() + "," + e.getY());
+		System.out.println(e.getX() + "," + e.getY());
+		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		int realY = y;
 		if (y >= 10) {
 			y = y - 10;
 		}
+
 		if (gameStart == false) {
 			if(realY>=10){
 				settleShip(y, x);
+				
 			}else{
 				JOptionPane.showMessageDialog(mainWindow, "你的地盤在下面喔");
 			}
@@ -342,29 +409,79 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-//		System.out.println(e.getPoint());
-		int x = (e.getX()) / 60;
-		int y = (e.getY() - 33) / 45;
-		//System.out.println(e.getX() + "," + e.getY());
-		//System.out.println(x +"," + y);
 	}
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	}
+	
+	public void handleHit (int x , int y, boolean hit,boolean self){
+		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
+		String pic =(hit) ? "X" : "M";
+		music("src/res/wmv/F.wav");
+		if(self){ //////////////////////////畫在自家
+			SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                 Graphics g = surface.getGraphics();
+	                 BufferedImage image;
+					try {
+						int X = dotX[y]+8;
+						int Y = dotY[x+10]+20;
+						image = ImageIO.read(new File("src/res/png/"+pic+".png").toURI().toURL());
+						g.drawImage(image,X,Y ,60,47,null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                 g.dispose();
+	                 view.repaint();
+	                 playerPanel.validate();
+	            }
+	        });
+		}else{//////////////////////////畫在別人家
+			SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                 Graphics g = surface.getGraphics();
+	                 BufferedImage image;
+					try {
+						int X = dotX[y]+9;
+						int Y = dotY[x]+19;
+						image = ImageIO.read(new File("src/res/png/"+pic+".png").toURI().toURL());
+						g.drawImage(image,X,Y ,60,47,null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                 g.dispose();
+	                 view.repaint();
+	                 playerPanel.validate();
+	            }
+	        });
+		}
+	}
+	
+	public void music (String path){
+		try {
+
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream((new File(path)));
+			AudioFormat audioFormat = audioInputStream.getFormat();
+			int bufferSize = (int) Math.min(audioInputStream.getFrameLength()* audioFormat.getFrameSize(),Integer.MAX_VALUE); // �w�Ĥj�p�A�p�G���T�ɮפ��j�A�i�H�����s�J�w�ĪŶ��C�o�Ӽƭ����ӭn���ӥγ~�ӨM�w
+			DataLine.Info dataLineInfo = new DataLine.Info(Clip.class, audioFormat, bufferSize);
+			Clip clip = (Clip) AudioSystem.getLine(dataLineInfo);
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception ex) {
+
+		}
 	}
 
 }

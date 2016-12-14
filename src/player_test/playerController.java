@@ -77,6 +77,15 @@ public class playerController {
 						 }
 		                break; 
 		            case "attack":
+	            		String hit = messageJSON.get("hit").toString();
+	            		String[] attackLocation = messageJSON.get("attackLocation").toString().split(",");
+	            		int x = Integer.parseInt(attackLocation[0]);
+	            		int y = Integer.parseInt(attackLocation[1]);
+		            	if(playerController.this.action.equals("attack")){ //你攻擊 所以畫在對面
+		            		gameView.handleHit(x, y, Boolean.parseBoolean(hit),false);
+		            	}else{ // 你被打
+		            		gameView.handleHit(x, y, Boolean.parseBoolean(hit),true);
+		            	}
 		            	 if(messageJSON.get("yourTurn").toString().equals("1")){
 							 gameView.yourTurn = true;
 							 gameView.condition.setText("換你了,");

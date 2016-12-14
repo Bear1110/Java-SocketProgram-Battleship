@@ -23,6 +23,10 @@ public class TcpServerThraed implements Runnable {
 	String actionBrodcast = "";
 	String actionBrodcastValue = "";
 	int[] brodcastStatus = {0,0};
+
+	int x = -1;
+	int y = -1;
+	boolean hit = false;
 	
 	/**********************game Data**************/
 	int playerMap[][][] = new int[2][10][10];
@@ -73,6 +77,7 @@ public class TcpServerThraed implements Runnable {
 		private Socket clientSocket;
 		int id ;
 		int other ;
+		
 		public RequestThread(Socket clientSocket, int id) {
 			this.clientSocket = clientSocket;
 			this.id = id;
@@ -105,18 +110,20 @@ public class TcpServerThraed implements Runnable {
 			            case "attack":
 							actionBrodcast = action;
 							String[] xy = actionValue.split(",");
-							int x = Integer.parseInt(xy[0]);
-							int y = Integer.parseInt(xy[1]);
+							x = Integer.parseInt(xy[0]);
+							y = Integer.parseInt(xy[1]);
 							System.out.println("Clicked point: (" + x + "," + y + ")");
-							if (checkMap[other][x][y]) {
+							if (checkMap[other][x][y]) {////////
 								if (playerMap[other][x][y] == 1) {
 									playerMap[other][x][y] = 9;
-									checkMap[other][x][y] = false;
 									finish = GameOver(other);
+									hit = true;
 								} else {
 									System.out.println(id+"沒打到"+other+"  "+whichTurn);
 									whichTurn = whichTurn==1 ? 0 : 1 ;
+									hit = false;
 								}
+								checkMap[other][x][y] = false;
 							}
 			            	Print();
 			                break;
@@ -132,7 +139,11 @@ public class TcpServerThraed implements Runnable {
 						actionBrodcast = "finish";
 						actionBrodcastValue = finish;
 					}else if (actionBrodcast.equals("attack")){
-						ServerData.put("yourTurn", whichTurn==id ? "1" : "0");
+						
+						String yourTurn = whichTurn==id ? "1" : "0";
+						ServerData.put("attackLocation",x+","+y);
+						ServerData.put("hit",hit+"");
+						ServerData.put("yourTurn", yourTurn);
 					}
 					///////////////////////////////////////////////////////////////////////////////////
 					ServerData.put("actionValue", actionBrodcastValue);
