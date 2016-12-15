@@ -213,10 +213,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 					                 g.dispose();
 					                 view.repaint();
 					                 playerPanel.validate();
-					                 
-					                 
 					                 nowSize = 0;
-					                 
 					            }
 					        });
 						}
