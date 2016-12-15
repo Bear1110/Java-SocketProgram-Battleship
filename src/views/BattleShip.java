@@ -292,6 +292,11 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
 			if(shipOrientation){
@@ -301,11 +306,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}
 			shipOrientation = !shipOrientation;
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
