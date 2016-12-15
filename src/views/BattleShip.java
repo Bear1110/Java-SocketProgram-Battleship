@@ -182,7 +182,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		
 		conditionWindow.setSize(600,140);
 		conditionWindow.setLocation(mainWindow.location().x+600, mainWindow.location().y+140);
-		condition = new JLabel("快擺船囉,");
+		condition = new JLabel("快擺船囉(目前橫向),");
 		condition.setFont(new Font("新細明體", Font.PLAIN, 40));
 		conditionWindow.add(condition);
 		conditionWindow.setVisible(true);
@@ -300,9 +300,9 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		int key = e.getKeyCode();
 		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
 			if(shipOrientation){
-				condition.setText("快擺船(目前橫向),");
-			}else{
 				condition.setText("快擺船(目前直向),");
+			}else{
+				condition.setText("快擺船(目前橫向),");
 			}
 			shipOrientation = !shipOrientation;
 		}
@@ -356,6 +356,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		System.out.println(this.getX()+" "+this.getY());
 		// TODO Auto-generated method stub
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		Image image = toolkit.getImage("src/res/png/"+nowShip+".png");
