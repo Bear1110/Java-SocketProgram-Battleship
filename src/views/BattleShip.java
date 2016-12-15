@@ -199,6 +199,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 						int X = dotX[y]+8;
 						int Y = dotY[x+10]+20;
 						drawPicture(X,Y,shipSize[nowShip][0],47,"src/res/png/"+nowShip+".png");
+						music("src/res/wmv/putship.wav");
 						judgeShip(nowShip);
 						nowSize=0;
 						vaild = true;
@@ -215,6 +216,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 						int X = dotX[y]+10;
 						int Y = dotY[x+10]+20;
 						drawPicture(X,Y,60,shipSize[nowShip][1]-8,"src/res/png/"+nowShip+"r.png");
+						music("src/res/wmv/putship.wav");
 						nowSize=0;
 						vaild = true;
 					}
