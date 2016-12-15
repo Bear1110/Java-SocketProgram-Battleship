@@ -189,33 +189,16 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				
 		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		int[][] shipSize = {{300,235},{240,188},{180,141},{120,94}};
-		
 			if (shipOrientation) {
 				if (y+nowSize <= 10) {
 					if (check(x,y) && nowSize != 0) {
 						for (int i=y;i<y+nowSize;i++) {
 							playerMap[x][i]++;
 							checkMap[x][i] = false;
-
-							SwingUtilities.invokeLater(new Runnable() {
-					            @Override
-					            public void run() {
-					                 Graphics g = surface.getGraphics();
-					                 BufferedImage image;
-									try {
-										int X = dotX[y]+8;
-										int Y = dotY[x+10]+20;
-										image = ImageIO.read(new File("src/res/png/"+nowShip+".png").toURI().toURL());
-										g.drawImage(image,X ,Y ,shipSize[nowShip][0],47,null);
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-					                 g.dispose();
-					                 view.repaint();
-					                 playerPanel.validate();
-					                 nowSize = 0;
-					            }
-					        });
+							int X = dotX[y]+8;
+							int Y = dotY[x+10]+20;
+							drawPicture(X,Y,shipSize[nowShip][0],47,"src/res/png/"+nowShip+".png");
+			                nowSize=0;
 						}
 						judgeShip(nowShip);
 					}
@@ -225,29 +208,11 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 					if (check(x,y) && nowSize != 0) {
 						for (int i=x;i<x+nowSize;i++) {
 							playerMap[i][y]++;
-							checkMap[i][y] = false;
-							
-
-							SwingUtilities.invokeLater(new Runnable() {
-					            @Override
-					            public void run() {
-					                 Graphics g = surface.getGraphics();
-					                 BufferedImage image;
-									try {
-										int X = dotX[y]+10;
-										int Y = dotY[x+10]+20;
-										image = ImageIO.read(new File("src/res/png/"+nowShip+"r.png").toURI().toURL());
-						                 g.drawImage(image,X ,Y ,60,shipSize[nowShip][1]-8,null);
-						                 System.out.println("nowShip"+nowShip);
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-					                 g.dispose();
-					                 view.repaint();
-					                 playerPanel.validate();
-					                 nowSize=0;
-					            }
-					        });
+							checkMap[i][y] = false;							
+							int X = dotX[y]+10;
+							int Y = dotY[x+10]+20;
+							drawPicture(X,Y,60,shipSize[nowShip][1]-8,"src/res/png/"+nowShip+"r.png");
+			                nowSize=0;						
 						}
 						judgeShip(nowShip);
 					}
@@ -354,7 +319,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		if (y >= 10) {
 			y = y - 10;
 		}
-//		handleHit(y,x,false,true);
 		if (gameStart == false) {
 			if(realY>=10){
 				settleShip(y, x);
@@ -369,10 +333,8 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			}else{
 				JOptionPane.showMessageDialog(mainWindow, "別打自己船");
 			}
-		}	
-		
+		}
 		System.out.println("//////////////////////");
-		
 		for (int i=0;i<10;i++) {
 			for (int j=0;j<10;j++) {
 				System.out.print(playerMap[i][j] + " ");
@@ -429,11 +391,11 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				music("src/res/wmv/miss.wav");
 			break;
 		}
-		
 		if(self){ //////////////////////////畫在自家
 			int X = dotX[y]+8;
 			int Y = dotY[x+10]+20;
 			drawPicture(X,Y,60,46,"src/res/png/"+pic+".png");
+			
 		}else{//////////////////////////畫在別人家
 			int X = dotX[y]+8;
 			int Y = dotY[x]+20;

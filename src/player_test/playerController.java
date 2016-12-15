@@ -71,6 +71,8 @@ public class playerController {
 		        			   
 		        			   gameView.yourTurn = true;
 		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "你先攻擊");
+		        		   }else{
+		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "對方先攻擊");
 		        		   }
 		        		   gameView.mainWindow.setTitle((Integer.parseInt(messageJSON.get("yourTurn").toString())^1)+"");
 		        		   gameView.condition.setText("遊戲開始,");
@@ -88,10 +90,11 @@ public class playerController {
 		            	}
 		            	 if(messageJSON.get("yourTurn").toString().equals("1")){
 							 gameView.yourTurn = true;
-							 gameView.condition.setText("換你了,");
+							 gameView.condition.setText("攻擊中,");
+							 gameView.music("src/res/wmv/yourturn.wav");
 						 }else{
 							 gameView.yourTurn = false;
-							 gameView.condition.setText("沒中,");
+							 gameView.condition.setText("等待對手攻擊,");
 						 }
 		            	break;
 		            case "finish":

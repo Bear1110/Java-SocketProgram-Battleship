@@ -31,7 +31,7 @@ public class connectGUI {
 	/**********************************/
 	String Name = "助教好帥";
 	
-	/***********�ŧi���������ݩ�**********/
+	/*********************************/
 	private JFrame frame;
 	JLabel yourIpLable = new JLabel("");
 	JButton createServer = new JButton("建立房間");
