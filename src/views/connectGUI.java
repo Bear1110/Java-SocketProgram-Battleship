@@ -36,7 +36,7 @@ public class connectGUI {
 	JLabel yourIpLable = new JLabel("");
 	JButton createServer = new JButton("建立房間");
 	JButton connectIp = new JButton("連線至此IP");
-	JButton chatSubmit = new JButton("送出");
+	static JButton chatSubmit = new JButton("送出");
 	JPanel panel;
 	JLayeredPane layeredPane = new JLayeredPane();
 	JTextField wantTalkWhat;
@@ -87,12 +87,12 @@ public class connectGUI {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 486, 383);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+		chatSubmit.setEnabled(false);
 		String IP = null;
 	    try {
 			IP = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {e.printStackTrace();}
-		yourIpLable.setText("你的IP是:192.168.0.106");
+		yourIpLable.setText("你的IP是:"+IP);
 		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -231,6 +231,7 @@ public class connectGUI {
 			        chatroom.setVisible(true);
 			        BattleShip window = new BattleShip(1);
 					UDP.API.iniUDPServer();
+					chatSubmit.setEnabled(true);
 				}else
 					JOptionPane.showMessageDialog(frame, "連線失敗");
 			}
@@ -256,6 +257,7 @@ public class connectGUI {
 		waitMessageService.shutdownNow();
 		TCP.clientModule.connectServer("127.0.0.1");
 		BattleShip window = new BattleShip(2);
+		chatSubmit.setEnabled(true);
 	}
 	public static void receiveChat(String msg){
 		textArea.append(msg+"\n");
