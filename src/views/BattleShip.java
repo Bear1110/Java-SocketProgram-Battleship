@@ -357,7 +357,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		if (y >= 10) {
 			y = y - 10;
 		}
-//		handleHit(y,x,true,true);
+//		handleHit(y,x,false,true);
 		if (gameStart == false) {
 			if(realY>=10){
 				settleShip(y, x);
@@ -434,45 +434,13 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		}
 		
 		if(self){ //////////////////////////畫在自家
-			SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                 Graphics g = surface.getGraphics();
-	                 BufferedImage image;
-					try {
-						int X = dotX[y]+8;
-						int Y = dotY[x+10]+20;
-						image = ImageIO.read(new File("src/res/png/"+pic+".png").toURI().toURL());
-						g.drawImage(image,X,Y ,60,46,null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	                 g.dispose();
-	                 view.repaint();
-	                 playerPanel.validate();
-	            }
-	        });
+			int X = dotX[y]+8;
+			int Y = dotY[x+10]+20;
+			drawPicture(X,Y,60,46,"src/res/png/"+pic+".png");
 		}else{//////////////////////////畫在別人家
-			SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                 Graphics g = surface.getGraphics();
-	                 BufferedImage image;
-					try {
-						int X = dotX[y]+8;
-						int Y = dotY[x]+20;
-						image = ImageIO.read(new File("src/res/png/"+pic+".png").toURI().toURL());
-						g.drawImage(image,X,Y ,60,46,null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	                 g.dispose();
-	                 view.repaint();
-	                 playerPanel.validate();
-	            }
-	        });
+			int X = dotX[y]+8;
+			int Y = dotY[x]+20;
+			drawPicture(X,Y,60,46,"src/res/png/"+pic+".png");
 		}
 	}
 	
@@ -486,6 +454,29 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			Clip clip = (Clip) AudioSystem.getLine(dataLineInfo);
 			clip.open(audioInputStream);
 			clip.start();
+		} catch (Exception ex) {
+
+		}
+	}
+	private void drawPicture (int x , int y, int width ,int height,String path){
+		try {
+			SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                 Graphics g = surface.getGraphics();
+	                 BufferedImage image;
+					try {
+						image = ImageIO.read(new File(path).toURI().toURL());
+						g.drawImage(image,x,y ,width,height,null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                 g.dispose();
+	                 view.repaint();
+	                 playerPanel.validate();
+	            }
+	        });
 		} catch (Exception ex) {
 
 		}
