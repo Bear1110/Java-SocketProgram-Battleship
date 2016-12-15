@@ -240,7 +240,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 										int X = dotX[y]+10;
 										int Y = dotY[x+10]+20;
 										image = ImageIO.read(new File("src/res/png/"+nowShip+"r.png").toURI().toURL());
-						                 g.drawImage(image,X ,Y ,60,shipSize[nowShip][1],null);
+						                 g.drawImage(image,X ,Y ,60,shipSize[nowShip][1]-8,null);
 						                 System.out.println("nowShip"+nowShip);
 									} catch (IOException e) {
 										e.printStackTrace();
@@ -357,7 +357,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		if (y >= 10) {
 			y = y - 10;
 		}
-
+//		handleHit(y,x,true,true);
 		if (gameStart == false) {
 			if(realY>=10){
 				settleShip(y, x);
@@ -443,7 +443,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 						int X = dotX[y]+8;
 						int Y = dotY[x+10]+20;
 						image = ImageIO.read(new File("src/res/png/"+pic+".png").toURI().toURL());
-						g.drawImage(image,X,Y ,60,47,null);
+						g.drawImage(image,X,Y ,60,46,null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -460,10 +460,10 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	                 Graphics g = surface.getGraphics();
 	                 BufferedImage image;
 					try {
-						int X = dotX[y]+9;
-						int Y = dotY[x]+19;
+						int X = dotX[y]+8;
+						int Y = dotY[x]+20;
 						image = ImageIO.read(new File("src/res/png/"+pic+".png").toURI().toURL());
-						g.drawImage(image,X,Y ,60,47,null);
+						g.drawImage(image,X,Y ,60,46,null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
