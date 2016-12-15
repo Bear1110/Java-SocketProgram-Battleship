@@ -264,7 +264,7 @@ public class connectGUI {
 		scrollTobutton();
 	}
 	public static void scrollTobutton(){
-		JScrollBar vertical = scrollPane.getVerticalScrollBar(); // ����̩��U�Ϊ�
+		JScrollBar vertical = scrollPane.getVerticalScrollBar(); 
 		vertical.setValue( vertical.getMaximum() );
 	}
 	class waitMessageUpdate implements Runnable {
