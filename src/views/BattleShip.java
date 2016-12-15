@@ -2,11 +2,14 @@ package views;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -354,7 +357,10 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage("src/res/png/"+nowShip+".png");
+		Cursor a = toolkit.createCustomCursor(image , new Point(this.getX(),this.getY()), "");
+		mainWindow.setCursor (a);
 	}
 
 	@Override
