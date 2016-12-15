@@ -208,7 +208,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 										image = ImageIO.read(new File("src/res/png/"+nowShip+".png").toURI().toURL());
 										g.drawImage(image,X ,Y ,shipSize[nowShip][0],47,null);
 									} catch (IOException e) {
-										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
 					                 g.dispose();
@@ -244,7 +243,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 						                 g.drawImage(image,X ,Y ,60,shipSize[nowShip][1],null);
 						                 System.out.println("nowShip"+nowShip);
 									} catch (IOException e) {
-										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
 					                 g.dispose();
@@ -312,9 +310,9 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		}
 	}
 	
-	//嚙踐�蕭��蕭��蕭謍�嚙踝蕭
+
 	public void judgeShip(int index) {
-		shipCount[index]--;	//嚙踝�蕭謍蕭�嚙踐�蕭�嚙踝蕭嚙�
+		shipCount[index]--;	
 		battleship[index].setText(shipName[index] + "x" + shipCount[index]);
 		if (shipCount[index]==0) {
 			battleship[index].setEnabled(false);
@@ -425,7 +423,16 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	public void handleHit (int x , int y, boolean hit,boolean self){
 		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		String pic =(hit) ? "X" : "M";
-		music("src/res/wmv/F.wav");
+		
+		switch(pic){
+			case "X":
+				music("src/res/wmv/bomb.wav");
+			break;
+			case "M":
+				music("src/res/wmv/miss.wav");
+			break;
+		}
+		
 		if(self){ //////////////////////////畫在自家
 			SwingUtilities.invokeLater(new Runnable() {
 	            @Override
@@ -474,7 +481,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream((new File(path)));
 			AudioFormat audioFormat = audioInputStream.getFormat();
-			int bufferSize = (int) Math.min(audioInputStream.getFrameLength()* audioFormat.getFrameSize(),Integer.MAX_VALUE); // �w�Ĥj�p�A�p�G���T�ɮפ��j�A�i�H�����s�J�w�ĪŶ��C�o�Ӽƭ����ӭn���ӥγ~�ӨM�w
+			int bufferSize = (int) Math.min(audioInputStream.getFrameLength()* audioFormat.getFrameSize(),Integer.MAX_VALUE); 
 			DataLine.Info dataLineInfo = new DataLine.Info(Clip.class, audioFormat, bufferSize);
 			Clip clip = (Clip) AudioSystem.getLine(dataLineInfo);
 			clip.open(audioInputStream);
