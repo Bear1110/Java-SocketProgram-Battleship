@@ -172,6 +172,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		shipWindow.setVisible(true);
 		
 	}
+	@SuppressWarnings("deprecation")
 	public void conditionWindow() {
 		conditionWindow = new JFrame("狀態列");
 		conditionPanel = new JPanel();
@@ -182,11 +183,10 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		condition.setFont(new Font("新細明體", Font.PLAIN, 40));
 		conditionWindow.add(condition);
 		conditionWindow.setVisible(true);
-		
 	}
 	//
 	public void settleShip(int x, int y) {
-				
+		boolean vaild = false;
 		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		int[][] shipSize = {{300,235},{240,188},{180,141},{120,94}};
 			if (shipOrientation) {
@@ -195,12 +195,13 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 						for (int i=y;i<y+nowSize;i++) {
 							playerMap[x][i]++;
 							checkMap[x][i] = false;
-							int X = dotX[y]+8;
-							int Y = dotY[x+10]+20;
-							drawPicture(X,Y,shipSize[nowShip][0],47,"src/res/png/"+nowShip+".png");
-			                nowSize=0;
 						}
+						int X = dotX[y]+8;
+						int Y = dotY[x+10]+20;
+						drawPicture(X,Y,shipSize[nowShip][0],47,"src/res/png/"+nowShip+".png");
 						judgeShip(nowShip);
+						nowSize=0;
+						vaild = true;
 					}
 				}
 			} else {
@@ -208,13 +209,14 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 					if (check(x,y) && nowSize != 0) {
 						for (int i=x;i<x+nowSize;i++) {
 							playerMap[i][y]++;
-							checkMap[i][y] = false;							
-							int X = dotX[y]+10;
-							int Y = dotY[x+10]+20;
-							drawPicture(X,Y,60,shipSize[nowShip][1]-8,"src/res/png/"+nowShip+"r.png");
-			                nowSize=0;						
+							checkMap[i][y] = false;	
 						}
 						judgeShip(nowShip);
+						int X = dotX[y]+10;
+						int Y = dotY[x+10]+20;
+						drawPicture(X,Y,60,shipSize[nowShip][1]-8,"src/res/png/"+nowShip+"r.png");
+						nowSize=0;
+						vaild = true;
 					}
 				}
 			}
@@ -223,13 +225,12 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 			condition.setText("等待對面擺完,");
 			cpu.readyForStart(playerMap);
 		}
-		
+		if(!vaild)
+			JOptionPane.showMessageDialog(mainWindow, "擺不下去啦");
 	}
 	//檢查放船
 	public boolean check(int x, int y) {
-		
 		boolean result = true;
-			
 		if (shipOrientation) {
 			for (int i=y;i<y+nowSize;i++) {
 				if (checkMap[x][i] == false) {
@@ -254,7 +255,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		}
 	}
 	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == battleship[0]) {
@@ -287,18 +287,20 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		int key = e.getKeyCode();
+		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
+			if(shipOrientation){
+				condition.setText("快擺船(目前橫向),");
+			}else{
+				condition.setText("快擺船(目前直向),");
+			}
+			shipOrientation = !shipOrientation;
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
-			shipOrientation = !shipOrientation; 
-		}
-		
 	}
 
 	@Override
@@ -306,7 +308,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		// TODO Auto-generated method stub
 		
 	}
-
 	
 	/////////////////////////mouseListener////////////////////////
 	@Override
