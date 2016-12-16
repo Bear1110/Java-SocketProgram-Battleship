@@ -359,11 +359,15 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 //		System.out.println(this.getX()+" "+this.getY());
- 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
- 		Image image = toolkit.getImage("src/res/png/"+nowShip+".png");
- 		Cursor a = toolkit.createCustomCursor(image , new Point(this.getX(),this.getY()), "");
- 		mainWindow.setCursor (a);
-
+		if(!gameStart){
+	 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+	 		Image image = toolkit.getImage("src/res/png/"+nowShip+".png");
+	 		Cursor a = toolkit.createCustomCursor(image , new Point(this.getX(),this.getY()), "");
+	 		mainWindow.setCursor (a);
+		}else{
+			System.out.println();
+			mainWindow.setCursor(getCursor());
+		}
 	}
 
 	@Override

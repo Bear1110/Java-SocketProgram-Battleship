@@ -64,13 +64,12 @@ public class playerController {
 		           case "Nothing":
 		        	   break;
 		           case "ready":
-		        	   if(actionValue.equals("1")){
-		        		   
+		        	   if(actionValue.equals("1")){		        		   
 		        		   gameView.gameStart = true;
 		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
-		        			   
 		        			   gameView.yourTurn = true;
 		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "你先攻擊");
+		        			   gameView.music("src/res/wmv/yourturn.wav");
 		        		   }else{
 		        			   JOptionPane.showMessageDialog(gameView.mainWindow, "對方先攻擊");
 		        		   }
