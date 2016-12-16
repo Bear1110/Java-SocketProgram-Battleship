@@ -55,7 +55,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	int shipCount[] = {1, 1, 2, 1};//
 	int shipSize[] = {5, 4, 3, 2}; //
 	int nowSize = 0;			   //
-	int nowShip;				   //
+	int nowShip = -1;				   //
 	boolean changePlayer[] = {true, true, true, true};
 	boolean shipOrientation = true; //true:left,right false:up,down
 	public JLabel condition ;
@@ -93,9 +93,8 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 
 		for (int i=0;i<10;i++) {
 			for (int j=0;j<10;j++) {
-				if (!gameStart) {
+				if (!gameStart)
 					playerMap[i][j] = 0;
-				}
 				checkMap[i][j] = true;
 			}
 		}		
@@ -190,7 +189,7 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	//
 	public void settleShip(int x, int y) {
 		boolean vaild = false;
-		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
+//		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		int[][] shipSize = {{300,235},{240,188},{180,141},{120,94}};
 			if (shipOrientation) {
 				if (y+nowSize <= 10) {
@@ -238,15 +237,13 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 		boolean result = true;
 		if (shipOrientation) {
 			for (int i=y;i<y+nowSize;i++) {
-				if (checkMap[x][i] == false) {
+				if (checkMap[x][i] == false)
 					result = false;
-				}
 			}
 		} else {
 			for (int i=x;i<x+nowSize;i++) {
-				if (checkMap[i][y] == false) {
+				if (checkMap[i][y] == false) 
 					result = false;
-				}
 			}
 		}
 		return result;
@@ -264,17 +261,21 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == battleship[0]) {
 			nowShip = 0;
-			nowSize = shipSize[nowShip];
 		} else if (e.getSource() == battleship[1]) {
 			nowShip = 1;
-			nowSize = shipSize[nowShip];
 		} else if (e.getSource() == battleship[2]) {
 			nowShip = 2;
-			nowSize = shipSize[nowShip];
 		} else if (e.getSource() == battleship[3]) {
 			nowShip = 3;
-			nowSize = shipSize[nowShip];
 		}
+		nowSize = shipSize[nowShip];
+		String LabelMessage = condition.getText();
+		if(LabelMessage.contains("占用")){
+			LabelMessage = LabelMessage.replaceAll("占用[0-9]格子", "占用"+nowSize+"格子");
+		}else{
+			LabelMessage += "占用"+nowSize+"格子";
+		}
+		condition.setText(LabelMessage);
 	}
 	
 
@@ -319,8 +320,8 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	public void mouseClicked(MouseEvent e) {
 		int x = (e.getX()) / 60;
 		int y = (e.getY() - 33) / 45;
-		System.out.println(e.getX() + "," + e.getY());
-		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
+//		System.out.println(e.getX() + "," + e.getY());
+//		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		int realY = y;
 		if (y >= 10) {
 			y = y - 10;
@@ -340,22 +341,28 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				JOptionPane.showMessageDialog(mainWindow, "別打自己船");
 			}
 		}
-		System.out.println("//////////////////////");
-		for (int i=0;i<10;i++) {
-			for (int j=0;j<10;j++) {
-				System.out.print(playerMap[i][j] + " ");
-			}
-			System.out.print("   |   ");
-			for (int j=0;j<10;j++) {
-				System.out.print(playerMap[i][j] + " ");
-			}
-			System.out.println();
-		}
+//		System.out.println("//////////////////////");
+//		for (int i=0;i<10;i++) {
+//			for (int j=0;j<10;j++) {
+//				System.out.print(playerMap[i][j] + " ");
+//			}
+//			System.out.print("   |   ");
+//			for (int j=0;j<10;j++) {
+//				System.out.print(playerMap[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+//		System.out.println(this.getX()+" "+this.getY());
+ 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+ 		Image image = toolkit.getImage("src/res/png/"+nowShip+".png");
+ 		Cursor a = toolkit.createCustomCursor(image , new Point(this.getX(),this.getY()), "");
+ 		mainWindow.setCursor (a);
 
 	}
 
@@ -385,7 +392,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 	}
 	
 	public void handleHit (int x , int y, boolean hit,boolean self){
-		System.out.println("Clicked point: (" + x + "," + y + ")ddd");
 		String pic =(hit) ? "X" : "M";
 		
 		switch(pic){

@@ -112,20 +112,20 @@ public class TcpServerThraed implements Runnable {
 							String[] xy = actionValue.split(",");
 							x = Integer.parseInt(xy[0]);
 							y = Integer.parseInt(xy[1]);
-							System.out.println("Clicked point: (" + x + "," + y + ")");
+//							System.out.println("Clicked point: (" + x + "," + y + ")");
 							if (checkMap[other][x][y]) {////////
 								if (playerMap[other][x][y] == 1) {
 									playerMap[other][x][y] = 9;
 									finish = GameOver(other);
 									hit = true;
 								} else {
-									System.out.println(id+"沒打到"+other+"  "+whichTurn);
+//									System.out.println(id+"沒打到"+other+"  "+whichTurn);
 									whichTurn = whichTurn==1 ? 0 : 1 ;
 									hit = false;
 								}
 								checkMap[other][x][y] = false;
 							}
-			            	Print();
+//			            	Print();
 			                break;
 			        }
 					////////////////////////////////////////////////////////////////////////////send
@@ -133,7 +133,7 @@ public class TcpServerThraed implements Runnable {
 						if(ready[0]==1 && ready[1]==1){
 							actionBrodcastValue = 1+"";
 							ServerData.put("yourTurn",  (whichTurn==id) ? 1 : 0 );
-							Print();
+//							Print();
 						}
 					}else if(!finish.equals("N")){
 						actionBrodcast = "finish";
