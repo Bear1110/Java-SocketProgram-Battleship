@@ -46,7 +46,7 @@ public class playerController {
 			JSONObject ClientData = new JSONObject();
 			while(true){
 				
-				try {Thread.sleep(1000);} catch (InterruptedException e) {} 
+				try {Thread.sleep(600);} catch (InterruptedException e) {} 
 				
 				ClientData.put("action", action);
 				ClientData.put("actionValue", actionValue);
@@ -64,7 +64,7 @@ public class playerController {
 		           case "Nothing":
 		        	   break;
 		           case "ready":
-		        	   if(actionValue.equals("1")){		        		   
+		        	   if(actionValue.equals("1")){    		   
 		        		   gameView.gameStart = true;
 		        		   if(messageJSON.get("yourTurn").toString().equals("1")){
 		        			   gameView.yourTurn = true;
