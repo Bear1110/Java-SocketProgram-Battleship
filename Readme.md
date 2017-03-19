@@ -5,6 +5,12 @@ Battle ship 一款有包含聊天室的 一對一連線(tcp) Java Game
 下載下來之後 把它include 進 eclipse 的 專案當中
 之後執行  src/view/connectGUI.java 即可執行
 
+## 架構
+
+[[https://github.com/bear1110/Java-SocketProgram/blob/master/UML.png|alt=octocat]]
+
+![alt tag](https://raw.githubusercontent.com/bear1110/Java-SocketProgram/master/UML.png)
+
 ## 遊戲流程
 
 一位玩家建立房間
