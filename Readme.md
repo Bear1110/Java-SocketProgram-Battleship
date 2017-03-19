@@ -7,8 +7,6 @@ Battle ship 一款有包含聊天室的 一對一連線(tcp) Java Game
 
 ## 架構
 
-[[https://github.com/bear1110/Java-SocketProgram/blob/master/UML.png|alt=octocat]]
-
 ![alt tag](https://raw.githubusercontent.com/bear1110/Java-SocketProgram/master/UML.png)
 
 ## 遊戲流程
