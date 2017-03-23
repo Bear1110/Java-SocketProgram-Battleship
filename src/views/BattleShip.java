@@ -341,17 +341,6 @@ public class BattleShip extends JFrame implements ActionListener, KeyListener, M
 				JOptionPane.showMessageDialog(mainWindow, "別打自己船");
 			}
 		}
-//		System.out.println("//////////////////////");
-//		for (int i=0;i<10;i++) {
-//			for (int j=0;j<10;j++) {
-//				System.out.print(playerMap[i][j] + " ");
-//			}
-//			System.out.print("   |   ");
-//			for (int j=0;j<10;j++) {
-//				System.out.print(playerMap[i][j] + " ");
-//			}
-//			System.out.println();
-//		}
 		
 	}
 
