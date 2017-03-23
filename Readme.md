@@ -1,5 +1,5 @@
 # 戰艦棋
-Battle ship 一款有包含聊天室的 一對一連線(tcp) Java Game
+Battle ship 一款有包含聊天室的 一對一連線(tcp) Java Game  (程式碼約 1500行)
 ![alt tag](https://raw.githubusercontent.com/bear1110/Java-SocketProgram/master/戰艦棋遊玩模式.PNG)
 ## Getting Started
 
