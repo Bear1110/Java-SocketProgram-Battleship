@@ -2,7 +2,7 @@
 Battle ship 一款有包含聊天室的 一對一連線(tcp) Java Game
 ## Getting Started
 
-下載下來之後 把它include 進 eclipse 的 專案當中
+下載下來之後 把它include 進 eclipse 的 專案當中 (選擇 Import existing Eclipse projects)
 之後執行  src/view/connectGUI.java 即可執行
 
 ## 架構
