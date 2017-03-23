@@ -1,5 +1,6 @@
 # 戰艦棋
 Battle ship 一款有包含聊天室的 一對一連線(tcp) Java Game
+![alt tag](https://raw.githubusercontent.com/bear1110/Java-SocketProgram/master/戰艦棋遊玩模式.PNG)
 ## Getting Started
 
 下載下來之後 把它include 進 eclipse 的 專案當中 (選擇 Import existing Eclipse projects)
